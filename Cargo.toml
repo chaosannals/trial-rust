@@ -8,3 +8,4 @@ edition = "2018"
 rand = "*"
 actix-web = "*"
 actix-rt = "*"
+reqwest = { version = "0.10", features = ["blocking", "json"] }
