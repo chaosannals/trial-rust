@@ -5,6 +5,8 @@ authors = ["chaosannals <chaosannals@outlook.com>"]
 edition = "2018"
 
 [dependencies]
+time = "*"
+chrono = "*"
 rand = "*"
 actix-web = "*"
 actix-rt = "*"

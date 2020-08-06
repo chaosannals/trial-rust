@@ -1,4 +1,6 @@
 use std::path::Path;
+use std::time::SystemTime;
+use chrono::prelude::*;
 
 extern crate rand;
 
@@ -36,10 +38,25 @@ async fn ip_index() -> impl Responder {
     format!("Ip {0}", ip.unwrap())
 }
 
+#[get("/now.html")]
+async fn now_index() -> impl Responder {
+    let today = Local::now().format("%Y-%m-%d").to_string();
+    if let Ok(now) = SystemTime::now().duration_since(SystemTime::UNIX_EPOCH) {
+        return format!("today: {0}, now {1}", today, now.as_nanos());
+    }
+    return format!("today {0} , get time failed.", today);
+}
+
 #[actix_rt::main]
 async fn main() -> std::io::Result<()> {
-    HttpServer::new(|| App::new().service(user_index).service(ip_index).service(fs_index))
-        .bind("127.0.0.1:8080")?
-        .run()
-        .await
+    HttpServer::new(|| {
+        App::new()
+            .service(user_index)
+            .service(ip_index)
+            .service(fs_index)
+            .service(now_index)
+    })
+    .bind("127.0.0.1:8080")?
+    .run()
+    .await
 }
