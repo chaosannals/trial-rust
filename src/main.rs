@@ -1,6 +1,9 @@
+use std::path::Path;
+
 extern crate rand;
 
 include!("ip.rs");
+include!("fs.rs");
 
 use actix_web::{get, web, App, HttpServer, Responder};
 use rand::distributions::Uniform;
@@ -21,15 +24,21 @@ async fn user_index(info: web::Path<(u32, String)>) -> impl Responder {
     format!("Hello {0}! id:{1} => {2:?}", info.1, info.0, a)
 }
 
+#[get("/fs.html")]
+async fn fs_index() -> impl Responder {
+    let p = get_path_buf(Path::new("."), &vec!["rs"]);
+    return format!("path: {0:?}", p);
+}
+
 #[get("/ip.html")]
-async fn index() -> impl Responder {
+async fn ip_index() -> impl Responder {
     let ip = get_wan_ip().await;
     format!("Ip {0}", ip.unwrap())
 }
 
 #[actix_rt::main]
 async fn main() -> std::io::Result<()> {
-    HttpServer::new(|| App::new().service(user_index).service(index))
+    HttpServer::new(|| App::new().service(user_index).service(ip_index).service(fs_index))
         .bind("127.0.0.1:8080")?
         .run()
         .await

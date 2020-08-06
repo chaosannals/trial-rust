@@ -26,7 +26,7 @@ impl Error for GetIpError {
     }
 }
 
-fn get_wan_ip_sync() -> Result<String, Box<dyn Error>> {
+pub fn get_wan_ip_sync() -> Result<String, Box<dyn Error>> {
     let response =
         reqwest::blocking::get("https://httpbin.org/ip")?.json::<HashMap<String, String>>()?;
     match response.get("origin") {
@@ -35,7 +35,7 @@ fn get_wan_ip_sync() -> Result<String, Box<dyn Error>> {
     }
 }
 
-async fn get_wan_ip() -> Result<String, Box<dyn Error>> {
+pub async fn get_wan_ip() -> Result<String, Box<dyn Error>> {
     let response = reqwest::get("https://httpbin.org/ip")
         .await?
         .json::<HashMap<String, String>>()
