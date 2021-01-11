@@ -1,5 +1,5 @@
 use std::fs;
-use std::path::{PathBuf};
+use std::path::{Path, PathBuf};
 
 pub fn get_path_buf(dir: &Path, suffix: &Vec<&str>) -> Vec<PathBuf> {
     let mut result = Vec::new();

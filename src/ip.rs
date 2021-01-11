@@ -26,6 +26,7 @@ impl Error for GetIpError {
     }
 }
 
+#[allow(dead_code)]
 pub fn get_wan_ip_sync() -> Result<String, Box<dyn Error>> {
     let response =
         reqwest::blocking::get("https://httpbin.org/ip")?.json::<HashMap<String, String>>()?;

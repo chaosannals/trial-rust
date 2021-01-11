@@ -3,9 +3,13 @@ use std::time::SystemTime;
 use chrono::prelude::*;
 
 extern crate rand;
+mod ip;
+mod fs;
 
-include!("ip.rs");
-include!("fs.rs");
+use ip::*;
+use fs::*;
+// include!("ip.rs");
+// include!("fs.rs");
 
 use actix_web::{get, web, App, HttpServer, Responder};
 use rand::distributions::Uniform;
@@ -56,7 +60,7 @@ async fn main() -> std::io::Result<()> {
             .service(fs_index)
             .service(now_index)
     })
-    .bind("127.0.0.1:8080")?
+    .bind("0.0.0.0:20080")?
     .run()
     .await
 }
