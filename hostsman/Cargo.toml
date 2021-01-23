@@ -1,0 +1,11 @@
+[package]
+name = "trail-rust-hostsman"
+version = "0.1.0"
+authors = ["chaosannals <chaosannals@outlook.com>"]
+edition = "2018"
+
+[dependencies]
+time = "*"
+chrono = "*"
+rand = "*"
+regex = "1.4.3"

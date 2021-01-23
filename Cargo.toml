@@ -1,11 +1,5 @@
-[package]
-name = "trail-rust"
-version = "0.1.0"
-authors = ["chaosannals <chaosannals@outlook.com>"]
-edition = "2018"
+[workspace]
 
-[dependencies]
-time = "*"
-chrono = "*"
-rand = "*"
-regex = "1.4.3"
+members = [
+    "hostsman",
+]
