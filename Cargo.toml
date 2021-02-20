@@ -3,5 +3,6 @@
 members = [
     "hostsman",
     "mkpw",
+    "mysql",
     "storage",
 ]

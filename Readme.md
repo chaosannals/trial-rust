@@ -6,4 +6,10 @@ cargo run --bin trail-rust-storage
 
 # hostsman
 cargo run --bin trail-rust-hostsman
+
+# mkpw
+cargo run --bin trail-rust-mkpw
+
+# mysql
+cargo run --bin trail-rust-mysql
 ```
