@@ -17,6 +17,9 @@ cargo run --bin trial-rust-mysql
 cargo run --bin trial-rust-icedui
 
 # azul 构建麻烦
+
+# imgui
+cargo run --bin trial-rust-imgui
 ```
 
 ## rustup 镜像
