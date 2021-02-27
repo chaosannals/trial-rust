@@ -4,7 +4,7 @@ use sqlx::{ConnectOptions, Executor};
 use std::str::FromStr;
 
 async fn create_tables() -> Result<(), sqlx::Error> {
-    let mut conn = SqliteConnectOptions::from_str("sqlite:trail.db")?
+    let mut conn = SqliteConnectOptions::from_str("sqlite:trial.db")?
         .journal_mode(SqliteJournalMode::Wal)
         .create_if_missing(true)
         .connect()

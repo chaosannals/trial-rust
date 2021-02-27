@@ -393,7 +393,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "trail-rust"
+name = "trial-rust"
 version = "0.1.0"
 dependencies = [
  "chrono",

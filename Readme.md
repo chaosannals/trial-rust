@@ -2,19 +2,22 @@
 
 ```bash
 # storage
-cargo run --bin trail-rust-storage
+cargo run --bin trial-rust-storage
 
 # hostsman
-cargo run --bin trail-rust-hostsman
+cargo run --bin trial-rust-hostsman
 
 # mkpw
-cargo run --bin trail-rust-mkpw
+cargo run --bin trial-rust-mkpw
 
 # mysql
-cargo run --bin trail-rust-mysql
+cargo run --bin trial-rust-mysql
 
 # iced
-cargo run --bin trail-rust-icedui
+cargo run --bin trial-rust-icedui
+
+# azul
+cargo run --bin trial-rust-azului
 ```
 
 ## rustup 镜像

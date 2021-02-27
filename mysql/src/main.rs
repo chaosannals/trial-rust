@@ -8,7 +8,7 @@ async fn init() -> Result<(), Error> {
         .host("localhost")
         .username("root")
         .password("password")
-        .database("trail")
+        .database("trial")
         .connect()
         .await?;
     conn.execute(

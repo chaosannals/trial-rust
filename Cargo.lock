@@ -3302,7 +3302,11 @@ dependencies = [
 ]
 
 [[package]]
-name = "trail-rust-hostsman"
+name = "trial-rust-azului"
+version = "0.1.0"
+
+[[package]]
+name = "trial-rust-hostsman"
 version = "0.1.0"
 dependencies = [
  "chrono",
@@ -3312,14 +3316,14 @@ dependencies = [
 ]
 
 [[package]]
-name = "trail-rust-icedui"
+name = "trial-rust-icedui"
 version = "0.1.0"
 dependencies = [
  "iced",
 ]
 
 [[package]]
-name = "trail-rust-mysql"
+name = "trial-rust-mysql"
 version = "0.1.0"
 dependencies = [
  "async-std",
@@ -3327,7 +3331,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "trail-rust-storage"
+name = "trial-rust-storage"
 version = "0.1.0"
 dependencies = [
  "async-std",
