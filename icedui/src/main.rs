@@ -14,8 +14,6 @@ impl Sandbox for Trial {
 
     fn new() -> Self {
         Self::default()
-            .width(Length::Units(200))
-            .height(Length::Units(100))
     }
 
     fn title(&self) -> String {
