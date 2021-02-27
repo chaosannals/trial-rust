@@ -3302,10 +3302,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "trial-rust-azului"
-version = "0.1.0"
-
-[[package]]
 name = "trial-rust-hostsman"
 version = "0.1.0"
 dependencies = [

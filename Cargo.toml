@@ -1,7 +1,6 @@
 [workspace]
 
 members = [
-    "azului",
     "hostsman",
     "icedui",
     "mkpw",
