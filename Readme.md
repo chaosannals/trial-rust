@@ -12,4 +12,7 @@ cargo run --bin trail-rust-mkpw
 
 # mysql
 cargo run --bin trail-rust-mysql
+
+# iced
+cargo run --bin trail-rust-icedui
 ```

@@ -2,6 +2,7 @@
 
 members = [
     "hostsman",
+    "icedui",
     "mkpw",
     "mysql",
     "storage",
