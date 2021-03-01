@@ -20,6 +20,9 @@ cargo run --bin trial-rust-icedui
 
 # imgui
 cargo run --bin trial-rust-imgui
+
+# winit
+cargo run --bin trial-rust-winit
 ```
 
 ## rustup 镜像
