@@ -7,6 +7,7 @@ use winit::{
 fn main() {
     let event_loop = EventLoop::new();
     let window = WindowBuilder::new().build(&event_loop).unwrap();
+    window.set_inner_size(winit::dpi::PhysicalSize::new(200, 200));
 
     event_loop.run(move |event, _, control_flow| {
         *control_flow = ControlFlow::Wait;
