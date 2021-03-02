@@ -23,6 +23,9 @@ cargo run --bin trial-rust-imgui
 
 # winit
 cargo run --bin trial-rust-winit
+
+# kas
+cargo run --bin trial-rust-kasui
 ```
 
 ## rustup 镜像
