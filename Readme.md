@@ -26,6 +26,11 @@ cargo run --bin trial-rust-winit
 
 # kas
 cargo run --bin trial-rust-kasui
+
+# conrod
+
+# native-windows-gui
+cargo run --bin trial-rust-nwgui
 ```
 
 ## rustup 镜像
@@ -38,4 +43,11 @@ export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
 ```cmd
 set RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
 set RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
+```
+
+## 创建项目
+
+```bash
+# 创建可执行项目
+cargo new --bin <name>
 ```
