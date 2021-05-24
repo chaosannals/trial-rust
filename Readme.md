@@ -9,6 +9,7 @@ cargo run --bin trial-rust-hostsman
 
 # mkpw
 cargo run --bin trial-rust-mkpw
+cargo build --bin trial-rust-mkpw --release
 
 # mysql
 cargo run --bin trial-rust-mysql

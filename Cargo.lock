@@ -2287,14 +2287,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "mkpw"
-version = "0.1.0"
-dependencies = [
- "clap",
- "rand 0.8.3",
-]
-
-[[package]]
 name = "naga"
 version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3792,6 +3784,14 @@ dependencies = [
  "kas-theme",
  "kas-wgpu",
  "log",
+]
+
+[[package]]
+name = "trial-rust-mkpw"
+version = "0.1.0"
+dependencies = [
+ "clap",
+ "rand 0.8.3",
 ]
 
 [[package]]
