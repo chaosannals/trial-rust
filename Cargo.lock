@@ -3819,6 +3819,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "trial-rust-uniqrow"
+version = "0.1.0"
+dependencies = [
+ "native-windows-derive",
+ "native-windows-gui",
+]
+
+[[package]]
 name = "trial-rust-winit"
 version = "0.1.0"
 dependencies = [

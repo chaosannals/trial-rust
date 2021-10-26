@@ -9,5 +9,6 @@ members = [
     "mysql",
     "nwgui",
     "storage",
+    "uniqrow",
     "winit",
 ]

@@ -30,8 +30,12 @@ cargo run --bin trial-rust-kasui
 
 # conrod
 
-# native-windows-gui
+# native-windows-gui 目前效果最好的GUI
 cargo run --bin trial-rust-nwgui
+
+# uniqrow
+cargo run --bin trial-rust-uniqrow
+cargo build --bin trial-rust-uniqrow --release
 ```
 
 ## rustup 镜像
