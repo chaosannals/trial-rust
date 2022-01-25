@@ -1,6 +1,7 @@
 mod utils;
 
 use wasm_bindgen::prelude::*;
+use xlsxwriter::*;
 
 // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
 // allocator.
@@ -16,4 +17,9 @@ extern {
 #[wasm_bindgen]
 pub fn greet() {
     alert("Hello, wasmpd!");
+}
+
+pub fn export_excel() {
+    let workbook = Workbook::new("simple1.xlsx");
+    workbook.close()?;
 }
