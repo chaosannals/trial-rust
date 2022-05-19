@@ -8,7 +8,7 @@ fn main() -> std::io::Result<()> {
     loop {
         let mut input = String::new();
         io::stdin().read_line(&mut input)?;
-        sock.send(input.as_bytes())?;
+        sock.send(input.trim().as_bytes())?;
 
         let mut buffer = [0u8; 1500];
         sock.recv_from(&mut buffer)?;
