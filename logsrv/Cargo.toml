@@ -1,5 +1,6 @@
 [workspace]
 members = [
+    "logpack",
     "logclient",
     "logserver"
 ]
