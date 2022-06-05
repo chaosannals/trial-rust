@@ -8,7 +8,13 @@ fn sum_size(dir: &path::PathBuf) -> io::Result<u64> {
             sum_size(&path)?
         }
         else {
-            fs::metadata(path)?.len()
+            match fs::metadata(path) {
+                Ok(p) => p.len(),
+                Err(e) => {
+                    println!("{0:?}", e);
+                    0
+                }
+            }
         }
     }
     Ok(result)
@@ -47,7 +53,13 @@ fn main() -> io::Result<()>{
                 }
             }
         } else {
-            fs::metadata(path)?.len()
+            match fs::metadata(path) {
+                Ok(p) => p.len(),
+                Err(e) => {
+                    println!("{0:?}", e);
+                    0
+                }
+            }
         };
         println!("fsize: {0}", fmt_size(size));
     }
