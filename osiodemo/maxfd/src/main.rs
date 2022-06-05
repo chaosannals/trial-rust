@@ -4,11 +4,11 @@ fn sum_size(dir: &path::PathBuf) -> io::Result<u64> {
     let mut result: u64 = 0;
     for entry in fs::read_dir(dir)? {
         let path = entry?.path();
-        if path.is_dir() {
-            result += sum_size(&path)?;
+        result += if path.is_dir() {
+            sum_size(&path)?
         }
         else {
-            result += fs::metadata(path)?.len();
+            fs::metadata(path)?.len()
         }
     }
     Ok(result)
@@ -38,13 +38,18 @@ fn main() -> io::Result<()>{
     for entry in fs::read_dir(wkdir)? {
         let path = entry?.path();
         print!("{0:?} ", path);
-        if path.is_dir() {
-            let size = sum_size(&path)?;
-            println!("dsize: {0}", fmt_size(size));
+        let size = if path.is_dir() {
+            match sum_size(&path) {
+                Ok(s) => s,
+                Err(e) => { 
+                    println!("{0:?}", e);
+                    0
+                }
+            }
         } else {
-            let size = fs::metadata(path)?.len();
-            println!("fsize: {0}", fmt_size(size));
-        }
+            fs::metadata(path)?.len()
+        };
+        println!("fsize: {0}", fmt_size(size));
     }
     Ok(())
 }
