@@ -8,10 +8,10 @@ fn sum_size(dir: &path::PathBuf) -> io::Result<u64> {
             sum_size(&path)?
         }
         else {
-            match fs::metadata(path) {
+            match fs::metadata(path.clone()) {
                 Ok(p) => p.len(),
                 Err(e) => {
-                    println!("{0:?}", e);
+                    println!("{0:?} {1:?}", path, e);
                     0
                 }
             }
