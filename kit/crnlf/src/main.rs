@@ -1,4 +1,4 @@
-use std::{io::{self, Write, Read, SeekFrom}, fs, path};
+use std::{io::{self, Write, Read, SeekFrom, Seek}, fs, path};
 use clap::Parser;
 
 #[derive(Parser, Debug)]
