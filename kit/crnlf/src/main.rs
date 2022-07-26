@@ -12,16 +12,19 @@ struct Opts {
 }
 
 fn replace_file(p: path::PathBuf, src: &str, dist: &str) -> io::Result<()> {
-    let mut f = fs::OpenOptions::new()
+    let mut fr = fs::OpenOptions::new()
         .read(true)
+        .open(p.clone())?;
+    let mut content = String::new();
+    let s = fr.read_to_string(&mut content)?;
+    let nc = content.replace(src, dist);
+
+    let mut fw = fs::OpenOptions::new()
         .write(true)
         .append(false)
         .open(p.clone())?;
-    let mut content = String::new();
-    let s = f.read_to_string(&mut content)?;
-    let nc = content.replace(src, dist);
-    f.write_all(nc.as_bytes())?;
-    f.flush()?;
+    fw.write_all(nc.as_bytes())?;
+    fw.flush()?;
     println!("replace: {} {}", s, p.display());
     Ok(())
 }
