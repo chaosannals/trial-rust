@@ -1,4 +1,4 @@
-use std::{io::{self, Write, Read}, fs, path};
+use std::{io::{self, Write, Read, SeekFrom}, fs, path};
 use clap::Parser;
 
 #[derive(Parser, Debug)]
@@ -22,7 +22,9 @@ fn replace_file(p: path::PathBuf, src: &str, dist: &str) -> io::Result<()> {
     let mut fw = fs::OpenOptions::new()
         .write(true)
         .append(false)
+        .truncate(true)
         .open(p.clone())?;
+    fw.seek(SeekFrom::Start(0))?;
     fw.write_all(nc.as_bytes())?;
     fw.flush()?;
     println!("replace: {} {}", s, p.display());
