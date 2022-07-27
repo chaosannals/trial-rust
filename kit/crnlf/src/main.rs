@@ -31,22 +31,21 @@ fn replace_file(p: path::PathBuf, src: &str, dist: &str) -> io::Result<()> {
     Ok(())
 }
 
-fn replace_dir(dirpath: path::PathBuf, src: &str, dist: &str, is_print_error: bool) -> io::Result<u8> {
+fn replace_dir(dirpath: path::PathBuf, src: &str, dist: &str, is_print_error: bool) -> io::Result<u32> {
     let mut count = 0;
     for entry in fs::read_dir(dirpath)? {
         let p = entry?.path();
         if p.is_dir() && !p.ends_with(".") {
-            replace_dir(p.clone(), src, dist, is_print_error)?;
+            count += replace_dir(p.clone(), src, dist, is_print_error)?;
         } else if p.is_file() {
             match replace_file(p.clone(), src, dist) {
-                Ok(_) => (),
+                Ok(_) => count += 1,
                 Err(e) => {
                     if is_print_error {
                         println!("error: {} {:?}", p.display(), e)
                     }
                 },
             }
-            count += 1;
         }
     }
     Ok(count)
