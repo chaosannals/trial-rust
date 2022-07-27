@@ -31,7 +31,8 @@ fn replace_file(p: path::PathBuf, src: &str, dist: &str) -> io::Result<()> {
     Ok(())
 }
 
-fn replace_dir(dirpath: path::PathBuf, src: &str, dist: &str, is_print_error: bool) -> io::Result<()> {
+fn replace_dir(dirpath: path::PathBuf, src: &str, dist: &str, is_print_error: bool) -> io::Result<u8> {
+    let mut count = 0;
     for entry in fs::read_dir(dirpath)? {
         let p = entry?.path();
         if p.is_dir() && !p.ends_with(".") {
@@ -45,9 +46,10 @@ fn replace_dir(dirpath: path::PathBuf, src: &str, dist: &str, is_print_error: bo
                     }
                 },
             }
+            count += 1;
         }
     }
-    Ok(())
+    Ok(count)
 }
 
 
@@ -62,10 +64,10 @@ fn main() {
         "lf2cr" => replace_dir(tdir, "\n", "\r", is_print_error),
         "cr2crlf" => replace_dir(tdir, "\r", "\r\n", is_print_error),
         "cr2lf" => replace_dir(tdir, "\r", "\n", is_print_error),
-        _ => Ok({ println!("unknown mode"); }),
+        _ => Ok({ println!("unknown mode"); 0 }),
     };
     match r {
         Err(e) => println!("error {:?}", e),
-        Ok(_) => println!("final."),
+        Ok(count) => println!("final, replace count: {}", count),
     }
 }
