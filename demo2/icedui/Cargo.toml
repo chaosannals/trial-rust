@@ -1,0 +1,9 @@
+[package]
+name = "trial-icedui"
+version = "0.1.0"
+authors = ["chaosannals <chaosannals@outlook.com>"]
+edition = "2018"
+
+[dependencies]
+iced = { version = "0.4.2", default-features = false, futures = ["wgpu"] }
+# iced = "0.4"
