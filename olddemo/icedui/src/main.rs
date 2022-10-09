@@ -1,4 +1,7 @@
 use iced::{Length, Column, Element, Sandbox, Settings};
+// use login::LoginPage;
+
+// mod login;
 
 #[derive(Debug, Clone)]
 struct Message {
@@ -24,6 +27,7 @@ impl Sandbox for Trial {
         Column::new()
             .width(Length::Units(200))
             .height(Length::Units(100))
+            // .push(LoginPage::new())
             .into()
     }
 
