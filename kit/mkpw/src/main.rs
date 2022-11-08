@@ -14,7 +14,7 @@ struct Opts {
     #[arg(short='c', long="charset", default_value="Lld", help="L:[A-Z] l:[a-z] d:[0-9] s:[~!@#$%^&*_-+]")]
     charset: String,
 
-    #[arg(short='a', long="append", default_value="_", help="append charset.")]
+    #[arg(short='a', long="append", default_value="", help="append charset.")]
     append_charset: String,
 }
 
