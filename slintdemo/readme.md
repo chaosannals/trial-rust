@@ -1,5 +1,13 @@
 # slint ui
 
+```bash
+# 全局安装该工具
+cargo install cargo-generate
+
+# 生成项目
+cargo generate --git https://github.com/slint-ui/slint-rust-template --name slinttdemo
+```
+
 官方提供 2 种使用方式，亲测只有 1 种可以编译。
 
 直接通过依赖引入的项目无法编译成功，大概是 README 没修改。
