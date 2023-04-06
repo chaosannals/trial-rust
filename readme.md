@@ -1,7 +1,13 @@
 # trial rust
 
-```bash
+## cargo generate (模板生成工具)
 
+```bash
+# 全局安装该工具
+cargo install cargo-generate
+
+# 指定 git 安装模板(这里是 slint 的示例)
+cargo generate --git https://github.com/slint-ui/slint-rust-template
 ```
 
 ## 配置镜像
