@@ -15,3 +15,7 @@ cargo generate --git https://github.com/slint-ui/slint-rust-template --name slin
 Cargo.toml 里:
 1. build-dependencies 指定了构造工具。
 2. build = "build.rs" 指定了构造的文件。
+
+## Vscode 插件
+
+搜索 slint 

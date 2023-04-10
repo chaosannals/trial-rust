@@ -1,17 +1,16 @@
-import { Button, VerticalBox } from "std-widgets.slint";
+import { SideBar } from "widgets/sidebar.slint";
+import { CounterPage } from "pages/counter_page.slint";
+import { AboutPage } from "pages/about_page.slint";
 
 export component AppWindow inherits Window {
-    in-out property<int> counter: 42;
-    callback request-increase-value();
-    VerticalBox { 
-        Text {
-            text: "Counter: \{root.counter}";
+    HorizontalLayout {
+        side-bar := SideBar {
+            title: "Slint Custom Sidebar";
+            model: ["Counter", "About", "CCCC"];
         }
-        Button {
-            text: "Increase value";
-            clicked => { 
-                root.request-increase-value();
-            }
-        }
-     }
+
+        if (side-bar.current-item == 0): CounterPage{}
+        if (side-bar.current-item == 1): AboutPage{}
+        
+    }
 }
