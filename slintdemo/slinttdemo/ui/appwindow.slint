@@ -1,22 +1,27 @@
 import { SideBar } from "widgets/sidebar.slint";
 import { CounterPage } from "pages/counter_page.slint";
 import { AboutPage } from "pages/about_page.slint";
+import { Palette, Logic } from "common.slint";
 
 export component AppWindow inherits Window {
     in-out property<string> tip: "";
     callback to_page(string);
 
-    HorizontalLayout {
+    VerticalLayout {
         label := Text {
-            text: "tip: \{root.tip}";
-        }
-        side-bar := SideBar {
-            title: "Slint Custom Sidebar";
-            model: ["Counter", "About", "CCCC"];
+            text: "tip: \{root.tip} the: \{Logic.the-value}";
+            color: Palette.primary;
         }
 
-        if (side-bar.current-item == 0): counter-page := CounterPage{}
-        if (side-bar.current-item == 1): AboutPage{}
-        
+        HorizontalLayout {
+            side-bar := SideBar {
+                title: "Slint Custom Sidebar";
+                model: ["Counter", "About", "CCCC"];
+            }
+
+            if (side-bar.current-item == 0): counter-page := CounterPage{}
+            if (side-bar.current-item == 1): AboutPage{}
+            
+        }
     }
 }

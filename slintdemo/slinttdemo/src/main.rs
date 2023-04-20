@@ -16,5 +16,7 @@ fn main() -> Result<(), slint::PlatformError> {
     //     ui.set_counter(ui.get_counter() + 1);
     // });
 
+    ui.global::<Logic>().set_the_value(44);
+
     ui.run()
 }
