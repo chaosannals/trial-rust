@@ -3,13 +3,19 @@ import { CounterPage } from "pages/counter_page.slint";
 import { AboutPage } from "pages/about_page.slint";
 
 export component AppWindow inherits Window {
+    in-out property<string> tip: "";
+    callback to_page(string);
+
     HorizontalLayout {
+        label := Text {
+            text: "tip: \{root.tip}";
+        }
         side-bar := SideBar {
             title: "Slint Custom Sidebar";
             model: ["Counter", "About", "CCCC"];
         }
 
-        if (side-bar.current-item == 0): CounterPage{}
+        if (side-bar.current-item == 0): counter-page := CounterPage{}
         if (side-bar.current-item == 1): AboutPage{}
         
     }
