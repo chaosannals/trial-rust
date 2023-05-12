@@ -4,9 +4,13 @@
 
 ```bash
 # workspace 指定构建项目
+# -p 更通用，可以指定 lib 库类型
+cargo build -p yourapp
 cargo build --bin yourapp
 
 # workspace 指定运行项目
+# -p 更通用，可以指定 lib 库类型
+cargo run -p yourapp
 cargo run --bin yourapp
 ```
 

@@ -1,10 +1,12 @@
 use std::net::UdpSocket;
 use std::{io, str};
+use logpack::LogPacker;
 
 pub struct LogClient<'a> {
     host: &'a str,
     port: u16,
     sock: UdpSocket,
+    packer: LogPacker,
 }
 
 impl<'a> LogClient<'a> {
@@ -16,11 +18,17 @@ impl<'a> LogClient<'a> {
             host: host,
             port: port,
             sock: sock,
+            packer: LogPacker::new(
+                &[0u8; 32],
+                &[1u8; 32],
+            )
         })
     }
 
     pub fn send(&self, data: &[u8]) -> std::io::Result<usize> {
-        self.sock.send(data)
+        // let r = self.packer.log_pack(data);
+        let r = data;
+        self.sock.send(r)
     }
 
     pub fn recv(&self) -> std::io::Result<()> {

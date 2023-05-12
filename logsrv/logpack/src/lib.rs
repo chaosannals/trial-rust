@@ -1,3 +1,5 @@
+
+
 pub struct LogPacker {
     key: [u8;32],
     pass: [u8;32],
@@ -12,11 +14,11 @@ impl LogPacker {
         LogPacker { key: rkey, pass: rpass }
     }
 
-    pub fn log_pack<'a>(&self, filename: &str, data : &'a [u8]) -> &'a [u8] {
+    pub fn log_pack<'a>(&self, data : &'a [u8]) -> &'a [u8] {
         data
     }
-    pub fn log_unpack<'a>(&self, pack : &'a [u8]) -> &'a [u8] {
-        pack
+    pub fn log_unpack<'a>(&self, data : &'a [u8]) -> &'a [u8] {
+        data
     }
 }
 
