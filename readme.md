@@ -1,5 +1,15 @@
 # trial rust
 
+## cargo 常用命令
+
+```bash
+# workspace 指定构建项目
+cargo build --bin yourapp
+
+# workspace 指定运行项目
+cargo run --bin yourapp
+```
+
 ## cargo generate (模板生成工具)
 
 ```bash

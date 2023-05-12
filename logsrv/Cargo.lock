@@ -19,3 +19,7 @@ version = "0.1.0"
 dependencies = [
  "logpack",
 ]
+
+[[package]]
+name = "tcpserver"
+version = "0.1.0"

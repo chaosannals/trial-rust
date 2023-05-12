@@ -2,5 +2,6 @@
 members = [
     "logpack",
     "logclient",
-    "logserver"
+    "logserver",
+    "tcpserver"
 ]
