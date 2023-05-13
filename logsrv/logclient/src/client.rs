@@ -26,9 +26,12 @@ impl<'a> LogClient<'a> {
     }
 
     pub fn send(&self, data: &[u8]) -> std::io::Result<usize> {
-        // let r = self.packer.log_pack(data);
-        let r = data;
-        self.sock.send(r)
+        // let mut v = vec![];
+        // v.extend_from_slice(data);
+        // let r = self.packer.log_pack(v.as_slice());
+        // let r = data;
+        let r = self.packer.log_pack(data);
+        self.sock.send(r.as_slice())
     }
 
     pub fn recv(&self) -> std::io::Result<()> {

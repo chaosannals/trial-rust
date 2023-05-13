@@ -32,7 +32,8 @@ impl<'a> LogServer<'a> {
                     // println!("1 {} {} {:?}", n, src, buf);
                     // let r = &mut buf[0..n];
                     // r.reverse();
-                    let r = self.packer.log_unpack(&buf[0..n]);
+                    let b = &buf[0..n];
+                    let r = self.packer.log_unpack(&b);
                     println!("2 {} {} {:?}", n, src, r);
                     sock.send_to(&r, &src)?;
                 },
