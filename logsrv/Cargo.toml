@@ -3,5 +3,6 @@ members = [
     "logpack",
     "logclient",
     "logserver",
+    "tcpclient",
     "tcpserver"
 ]
