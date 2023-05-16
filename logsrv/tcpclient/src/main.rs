@@ -20,7 +20,10 @@ use generic_array::{
 
 fn main() -> Result<()> {
     // let key  = Aes256GcmSiv::generate_key(&mut OsRng);
-    let key = GenericArray::from_slice(&[1u8; 32]);
+    let pass = b"pass";
+    let mut keybuf = [0u8; 32];
+    keybuf[0..pass.len()].copy_from_slice(&pass[..]);
+    let key = GenericArray::from_slice(&keybuf);
     let cipher = Aes256GcmSiv::new(&key);
     let nonce = Nonce::from_slice(b"unique nonce");
 
