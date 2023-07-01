@@ -45,3 +45,19 @@ registry = "https://mirrors.tuna.tsinghua.edu.cn/git/crates.io-index.git"
 [target.x86_64-pc-windows-msvc]
 rustflags = ["-C", "target-feature=+crt-static"]
 ```
+
+
+## 常用工具库
+
+### cargo-watch
+
+类似 nodemon 这种监听代码变化并自动重启命令的命令工具
+
+```bash
+# 安装
+cargo install cargo-watch
+
+# -w 指定监听源码目录
+# -x 指定要执行的命令
+cargo watch -w src/ -x run
+```
