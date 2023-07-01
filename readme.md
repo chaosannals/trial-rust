@@ -61,3 +61,10 @@ cargo install cargo-watch
 # -x 指定要执行的命令
 cargo watch -w src/ -x run
 ```
+
+
+## 数据库
+
+- [sqlx]()
+- [diesel]()
+- [rusqlite](https://github.com/rusqlite/rusqlite)
