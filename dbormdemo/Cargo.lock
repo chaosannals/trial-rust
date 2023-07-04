@@ -21,17 +21,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
 
 [[package]]
-name = "dexe"
-version = "0.1.0"
-dependencies = [
- "diesel",
- "dotenvy",
- "serde",
- "serde_derive",
- "serde_json",
-]
-
-[[package]]
 name = "diesel"
 version = "2.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -62,6 +51,17 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "fc5557efc453706fed5e4fa85006fe9817c224c3f480a34c7e5959fd700921c5"
 dependencies = [
  "syn",
+]
+
+[[package]]
+name = "dieseldexe"
+version = "0.1.0"
+dependencies = [
+ "diesel",
+ "dotenvy",
+ "serde",
+ "serde_derive",
+ "serde_json",
 ]
 
 [[package]]
