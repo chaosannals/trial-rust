@@ -1,14 +1,16 @@
-# diesel
+## diesel
 
 这个库不及 sqlx 这种纯 rust 开发的库安装方便。
 Windows 下依赖库安装和编译工具链很麻烦，
 Linux 下应该没这个问题。
 
 ```bash
-cargo build -p dexe
+cargo build -p dieseldexe
+
+cargo build -p seaormdemo
 ```
 
-## 命令行工具 diesel cli
+### 命令行工具 diesel cli
 
 这个工具是 rust 和 c 库混合编译，依赖 c 库，编译过程很繁琐。
 

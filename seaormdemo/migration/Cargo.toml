@@ -1,0 +1,22 @@
+[package]
+name = "migration"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[lib]
+name = "migration"
+path = "src/lib.rs"
+
+[dependencies]
+# 固定指定 async-std 因为代码里面使用了 async-std 的宏
+async-std = { version = "1", features = ["attributes", "tokio1"] }
+
+[dependencies.sea-orm-migration]
+version = "0.11.0"
+features = [
+  "sqlx-sqlite",
+  # 因为 sqlite 是写文件，和 tls 以及异步运行时无关，无法测试出匹配关系。
+  "runtime-async-std-native-tls",
+  # "runtime-actix-rustls",
+]

@@ -1,0 +1,34 @@
+[workspace]
+members = [
+    "sead",
+    "entity",
+    "migration",
+]
+
+[workspace.dependencies]
+actix = "0.13.0"
+actix-http = "2"
+actix-web = "3"
+actix-flash = "0.2"
+actix-files = "0.5"
+futures = { version = "0.3" }
+futures-util = { version = "0.3" }
+tera = "1.8.0"
+dotenvy = "0.15"
+listenfd = "0.3.3"
+serde = { version = "1", features = ["derive"] }
+tracing-subscriber = { version = "0.3.17", features = ["env-filter"] }
+
+
+[workspace.dependencies.sea-orm]
+version = "^0.11.3"
+features = [
+    "sqlx-sqlite",
+    "runtime-async-std-native-tls",
+    # "runtime-actix-rustls",
+    "macros",
+    "debug-print",
+    "with-json",
+    "with-uuid",
+]
+

@@ -1,0 +1,21 @@
+[package]
+name = "sead"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+actix.workspace = true
+actix-http.workspace = true
+actix-web.workspace = true
+actix-flash.workspace = true
+actix-files.workspace = true
+futures.workspace = true
+futures-util.workspace = true
+tera.workspace = true
+dotenvy.workspace = true
+listenfd.workspace = true
+serde.workspace = true
+tracing-subscriber.workspace = true
+sea-orm.workspace = true
