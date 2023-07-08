@@ -3,7 +3,7 @@ use std::env;
 use sea_orm::*;
 
 #[actix::main]
-async fn start() -> std::io::Result<()>  {
+async fn start() -> Result<(), DbErr>  {
     // get env vars
     dotenvy::dotenv().ok();
     let db_url = env::var("DATABASE_URL").expect("DATABASE_URL is not set in .env file");
@@ -22,8 +22,8 @@ async fn start() -> std::io::Result<()>  {
         // .sqlx_logging_level(log::LevelFilter::Info)
         .set_schema_search_path("my_schema".into());
 
-    // 官方也没有解决多种 Error 类型的问题，使用 unwrap 绕过了。
-    let db = Database::connect(opt).await.unwrap();
+    // TODO 解决多种 Error 类型的问题，不使用 unwrap 绕过了。
+    let db = Database::connect(opt).await?;
     Ok(())
 }
 
