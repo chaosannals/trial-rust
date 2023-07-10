@@ -8,7 +8,10 @@ use sea_orm::{
     DbErr,
     Statement,
     ActiveValue,
+    ModelTrait,
     EntityTrait,
+    ColumnTrait,
+    QueryFilter,
     ActiveModelTrait,
 };
 use entities::{prelude::*, *};
@@ -69,12 +72,14 @@ async fn run() -> Result<(), DbErr> {
     sad_bakery.update(db).await?;
 
     // 插入关联数据
-    let john = chef::ActiveModel {
-        name: ActiveValue::Set("John".to_owned()),
-        bakery_id: ActiveValue::Set(res.last_insert_id), // a foreign key
-        ..Default::default()
-    };
-    Chef::insert(john).exec(db).await?;
+    for chef_name in ["Jolie", "Charles", "Madeleine", "Frederic"] {
+        let john = chef::ActiveModel {
+            name: ActiveValue::Set(chef_name.to_owned()),
+            bakery_id: ActiveValue::Set(res.last_insert_id), // a foreign key
+            ..Default::default()
+        };
+        Chef::insert(john).exec(db).await?;
+    }
 
     // 全部检出
     let bakeries: Vec<bakery::Model> = Bakery::find().all(db).await?;
@@ -83,6 +88,34 @@ async fn run() -> Result<(), DbErr> {
     // 按 ID 查找
     let sad_bakery: Option<bakery::Model> = Bakery::find_by_id(1).one(db).await?;
     println!("find: {:?}", sad_bakery);
+
+    //带过滤条件查询
+    let sad_bakery: Option<bakery::Model> = Bakery::find()
+        .filter(bakery::Column::Name.eq("Sad Bakery"))
+        .one(db)
+        .await?;
+    println!("filter: {:?}", sad_bakery);
+
+    // 先通过 ID 获取主数据
+    let la_boulangerie: bakery::Model = Bakery::find_by_id(res.last_insert_id)
+        .one(db)
+        .await?
+        .unwrap();
+    // 检出关联数据
+    let chefs: Vec<chef::Model> = la_boulangerie.find_related(Chef).all(db).await?;
+    println!("la: {:?}  =>  chefs: {:?}", la_boulangerie, chefs);
+
+
+    // 删除，必须指定主键
+    let john = chef::ActiveModel {
+        id: ActiveValue::Set(1), // The primary key must be set
+        ..Default::default()
+    };
+    john.delete(db).await?; // 不存在不会报错。
+
+    // 可以看到主键 id:1 是没有的，是从 2 开始。
+    let chefs: Vec<chef::Model> = Chef::find().all(db).await?;
+    println!("chefs: {:?}", chefs);
 
     Ok(())
 }
