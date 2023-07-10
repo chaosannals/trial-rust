@@ -1,14 +1,29 @@
+mod entities;
+
 use futures::executor::block_on;
-use sea_orm::{ConnectionTrait, Database, DbBackend, DbErr, Statement};
+use sea_orm::{
+    ConnectionTrait,
+    Database,
+    DbBackend,
+    DbErr,
+    Statement,
+    ActiveValue,
+    EntityTrait,
+    ActiveModelTrait,
+};
+use entities::{prelude::*, *};
 
 /// MySQL	mysql://root:root@localhost:3306
 /// PostgreSQL	postgres://root:root@localhost:5432
 /// SQLite (in file)	sqlite:./sqlite.db?mode=rwc
 /// SQLite (in memory)	sqlite::memory:
 const DATABASE_URL: &str = "sqlite:./test.db";
-const DB_NAME: &str = "bakeries_db";
+const DB_NAME: &str = "bakeries_db"; // 这个名字如果使用 Sqlite 是用不上的。
 
 async fn run() -> Result<(), DbErr> {
+    // 此处 API 的设计非常吊轨，先链接，后再进入 get_database_backend 再执行一次初始化。
+    let db = Database::connect(DATABASE_URL).await?;
+
     // 构建链接时执行创建数据库语句。
     let db = &match db.get_database_backend() {
         DbBackend::MySql => {
@@ -37,8 +52,50 @@ async fn run() -> Result<(), DbErr> {
         }, 
     };
 
+    // 插入 
+    let happy_bakery = bakery::ActiveModel {
+        name: ActiveValue::Set("Happy Bakery".to_owned()),
+        profit_margin: ActiveValue::Set(0.0),
+        ..Default::default()
+    };
+    let res = Bakery::insert(happy_bakery).exec(db).await?;
+
+    // 更改
+    let sad_bakery = bakery::ActiveModel {
+        id: ActiveValue::Set(res.last_insert_id),
+        name: ActiveValue::Set("Sad Bakery".to_owned()),
+        profit_margin: ActiveValue::NotSet,
+    };
+    sad_bakery.update(db).await?;
+
+    // 插入关联数据
+    let john = chef::ActiveModel {
+        name: ActiveValue::Set("John".to_owned()),
+        bakery_id: ActiveValue::Set(res.last_insert_id), // a foreign key
+        ..Default::default()
+    };
+    Chef::insert(john).exec(db).await?;
+
+    // 全部检出
+    let bakeries: Vec<bakery::Model> = Bakery::find().all(db).await?;
+    println!("all: {:?}", bakeries);
+
+    // 按 ID 查找
+    let sad_bakery: Option<bakery::Model> = Bakery::find_by_id(1).one(db).await?;
+    println!("find: {:?}", sad_bakery);
+
     Ok(())
 }
+
+// async fn run_bakery() -> Result<(), DbErr> {
+//     let happy_bakery = bakery::ActiveModel {
+//         name: ActiveValue::Set("Happy Bakery".to_owned()),
+//         profit_margin: ActiveValue::Set(0.0),
+//         ..Default::default()
+//     };
+//     let res = Bakery::insert(happy_bakery).exec(db).await?;
+//     Ok(())
+// }
 
 fn main() {
     if let Err(err) = block_on(run()) {

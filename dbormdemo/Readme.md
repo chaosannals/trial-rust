@@ -4,6 +4,9 @@
 Windows 下依赖库安装和编译工具链很麻烦，
 Linux 下应该没这个问题。
 
+注：此示例的 t1.db 和 test.db 路径没有安排一致，所以不能直接运行。
+代码仅供参考，执行时候要根据语义，自行复制 t1.db 和 test.db 的替换。
+
 ```bash
 cargo build -p dieseldexe
 
