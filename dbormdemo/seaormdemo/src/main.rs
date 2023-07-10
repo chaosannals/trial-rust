@@ -13,6 +13,8 @@ use sea_orm::{
     ColumnTrait,
     QueryFilter,
     ActiveModelTrait,
+    DatabaseConnection,
+    MockDatabase,//mock
 };
 use entities::{prelude::*, *};
 
@@ -120,18 +122,79 @@ async fn run() -> Result<(), DbErr> {
     Ok(())
 }
 
-// async fn run_bakery() -> Result<(), DbErr> {
-//     let happy_bakery = bakery::ActiveModel {
-//         name: ActiveValue::Set("Happy Bakery".to_owned()),
-//         profit_margin: ActiveValue::Set(0.0),
-//         ..Default::default()
-//     };
-//     let res = Bakery::insert(happy_bakery).exec(db).await?;
-//     Ok(())
-// }
+// 提供测试数据 mock
+async fn run_mock() -> Result<(), DbErr> {
+    // 示例太老了，DatabaseBackend::MySql 被改成了 DbBackend::MySql，官方示例没改。。。
+    let db: &DatabaseConnection = &MockDatabase::new(DbBackend::MySql)
+        .append_query_results(vec![
+            // First query result
+            vec![bakery::Model {
+                id: 1,
+                name: "Happy Bakery".to_owned(),
+                profit_margin: 0.0,
+            }],
+            // Second query result
+            vec![
+                bakery::Model {
+                    id: 1,
+                    name: "Happy Bakery".to_owned(),
+                    profit_margin: 0.0,
+                },
+                bakery::Model {
+                    id: 2,
+                    name: "Sad Bakery".to_owned(),
+                    profit_margin: 100.0,
+                },
+                bakery::Model {
+                    id: 3,
+                    name: "La Boulangerie".to_owned(),
+                    profit_margin: 17.89,
+                },
+            ],
+        ])
+        .append_query_results(vec![
+            // Third query result
+            vec![
+                chef::Model {
+                    id: 1,
+                    name: "Jolie".to_owned(),
+                    contact_details: None,
+                    bakery_id: 3,
+                },
+                chef::Model {
+                    id: 2,
+                    name: "Charles".to_owned(),
+                    contact_details: None,
+                    bakery_id: 3,
+                },
+                chef::Model {
+                    id: 3,
+                    name: "Madeleine".to_owned(),
+                    contact_details: None,
+                    bakery_id: 3,
+                },
+                chef::Model {
+                    id: 4,
+                    name: "Frederic".to_owned(),
+                    contact_details: None,
+                    bakery_id: 3,
+                },
+            ]
+        ])
+        .into_connection();
+
+    let happy_bakery: Option<bakery::Model> = Bakery::find().one(db).await?;
+    println!("mock: {:?}", happy_bakery);
+    
+    Ok(())
+}
 
 fn main() {
     if let Err(err) = block_on(run()) {
+        panic!("{}", err);
+    }
+
+    if let Err(err) = block_on(run_mock()) {
         panic!("{}", err);
     }
 }
