@@ -30,6 +30,8 @@ use sea_orm::{
 };
 use entities::{prelude::*, *};
 
+use serde_json::json;
+
 /// Query 1. 定义查询结果结构
 #[derive(FromQueryResult, Debug)]
 struct ChefNameResult {
@@ -159,6 +161,29 @@ async fn run() -> Result<(), DbErr> {
     println!("MySQL: {}", stmt.to_string(MysqlQueryBuilder));
     println!("Postgres: {}", stmt.to_string(PostgresQueryBuilder));
     println!("Sqlite: {}", stmt.to_string(SqliteQueryBuilder));
+
+    // 完全由 JSON 构建， 没有缺省，必须JSON字段齐全。
+    let fjsonid = res.last_insert_id + 1;
+    let fjson = bakery::ActiveModel::from_json(json!({
+        "id": fjsonid,
+        "name": "AAA from JSON",
+        "profit_margin": 0.0,
+    }))?;
+    Bakery::insert(fjson).exec(db).await?;
+
+    // Model 已经构建后通过 json 加载 修改 字段。
+    let mut fjson = bakery::ActiveModel {
+        profit_margin: ActiveValue::Set(0.0),
+        ..Default::default() // 这里可以使用默认填充。
+    };
+    // seaorm 无法使用 serde 的 默认值。
+    fjson.set_from_json(json!({
+        "id": fjsonid + 1,
+        "name": "BBB set from JSON",
+        "profit_margin": 1.0,
+    }))?;
+
+    Bakery::insert(fjson).exec(db).await?;
 
     Ok(())
 }

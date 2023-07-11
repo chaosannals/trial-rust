@@ -1971,6 +1971,8 @@ version = "0.1.0"
 dependencies = [
  "futures",
  "sea-orm 0.9.3",
+ "serde",
+ "serde_json",
 ]
 
 [[package]]
