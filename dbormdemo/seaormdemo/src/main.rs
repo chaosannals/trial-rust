@@ -15,8 +15,26 @@ use sea_orm::{
     ActiveModelTrait,
     DatabaseConnection,
     MockDatabase,//mock
+    FromQueryResult, // Query 0.引入依赖
+    sea_query::{
+        Alias,
+        Expr,
+        JoinType,
+        Order,
+        Query,
+        // QueryBuilder,
+        MysqlQueryBuilder, // stmt.to_string
+        PostgresQueryBuilder, // 
+        SqliteQueryBuilder
+    }, // Query 0.引入依赖
 };
 use entities::{prelude::*, *};
+
+/// Query 1. 定义查询结果结构
+#[derive(FromQueryResult, Debug)]
+struct ChefNameResult {
+    name: String,
+}
 
 /// MySQL	mysql://root:root@localhost:3306
 /// PostgreSQL	postgres://root:root@localhost:5432
@@ -29,7 +47,9 @@ async fn run() -> Result<(), DbErr> {
     // 此处 API 的设计非常吊轨，先链接，后再进入 get_database_backend 再执行一次初始化。
     let db = Database::connect(DATABASE_URL).await?;
 
-    // 构建链接时执行创建数据库语句。
+    // 构建链接时执行创建数据库语句。get_database_backend 应该是可以重复调用。
+    let builder = db.get_database_backend();
+    // let db = &match builder {
     let db = &match db.get_database_backend() {
         DbBackend::MySql => {
             db.execute(Statement::from_string(
@@ -118,6 +138,27 @@ async fn run() -> Result<(), DbErr> {
     // 可以看到主键 id:1 是没有的，是从 2 开始。
     let chefs: Vec<chef::Model> = Chef::find().all(db).await?;
     println!("chefs: {:?}", chefs);
+
+    /// Query 2. SELECT 的字段名
+    let column = (chef::Entity, Alias::new("name")); // 这种写法类型丢了。。。
+    let mut stmt = Query::select();
+    stmt.column(column.clone()) // Use `expr_as` instead of `column` if renaming is necessary
+        .from(chef::Entity)
+        .join(
+            JoinType::Join,
+            bakery::Entity,
+            Expr::tbl(chef::Entity, Alias::new("bakery_id"))
+                .equals(bakery::Entity, Alias::new("id")),
+        )
+        .order_by(column, Order::Asc);
+    
+    let chef = ChefNameResult::find_by_statement(builder.build(&stmt))
+        .all(db)
+        .await?;
+    println!("Query: chef: {:?}", chef);
+    println!("MySQL: {}", stmt.to_string(MysqlQueryBuilder));
+    println!("Postgres: {}", stmt.to_string(PostgresQueryBuilder));
+    println!("Sqlite: {}", stmt.to_string(SqliteQueryBuilder));
 
     Ok(())
 }
