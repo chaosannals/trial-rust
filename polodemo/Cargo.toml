@@ -4,5 +4,6 @@ members=[
     'finddemo',
     'updatedemo',
     'deletedemo',
+    'transactiondemo',
     'libdemo',
 ]

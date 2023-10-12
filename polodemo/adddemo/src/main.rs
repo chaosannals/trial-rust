@@ -10,7 +10,7 @@ fn main() -> Result<(), Error> {
     collection.insert_one(Book {
         title: "The Three-Body Problem".to_string(),
         author: "Liu Cixin".to_string(),
-        number: Some(0),
+        ..Default::default()
     })?;
     let books = vec![
         Book {
