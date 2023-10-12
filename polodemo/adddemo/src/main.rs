@@ -10,15 +10,18 @@ fn main() -> Result<(), Error> {
     collection.insert_one(Book {
         title: "The Three-Body Problem".to_string(),
         author: "Liu Cixin".to_string(),
+        number: Some(0),
     })?;
     let books = vec![
         Book {
             title: "The Grapes of Wrath".to_string(),
             author: "John Steinbeck".to_string(),
+            number: Some(1),
         },
         Book {
             title: "To Kill a Mockingbird".to_string(),
             author: "Harper Lee".to_string(),
+            number: Some(2),
         },
     ];
     collection.insert_many(books)?;
