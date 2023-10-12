@@ -2,5 +2,6 @@
 members=[
     'adddemo',
     'finddemo',
+    'updatedemo',
     'libdemo',
 ]
