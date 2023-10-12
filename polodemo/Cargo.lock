@@ -107,6 +107,14 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "bd3d10c557924c719a61e583165e31a0d8131b20415d6858983e67d1eb8a82bd"
 
 [[package]]
+name = "deletedemo"
+version = "0.1.0"
+dependencies = [
+ "libdemo",
+ "polodb_core",
+]
+
+[[package]]
 name = "deranged"
 version = "0.3.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
