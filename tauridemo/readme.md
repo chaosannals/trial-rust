@@ -1,5 +1,16 @@
 # tauri demo
 
+```bash
+# 安装 cargo 命令工具
+cargo install tauri-cli
+
+# 执行初始化 src-tauri 由改命令生成
+cargo tauri init
+
+# 启动开发
+cargo tauri dev
+```
+
 ```pwsh
 $env:HTTP_PROXY="http://127.0.0.1:1088"
 $env:HTTPS_PROXY="https://127.0.0.1:1088"
