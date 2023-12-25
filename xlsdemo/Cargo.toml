@@ -1,0 +1,7 @@
+[workspace]
+members=[
+    "calademo"
+]
+
+[workspace.dependencies]
+calamine = "0.23.1"
