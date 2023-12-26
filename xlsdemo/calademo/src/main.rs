@@ -12,15 +12,20 @@ fn main()-> Result<(), Error> {
 
     if range.is_ok() {
         let a = range.unwrap();
-        let mut iter = RangeDeserializerBuilder::new().from_range(&a)?;
+        // let mut iter = RangeDeserializerBuilder::new().from_range(&a)?;
 
-        if let Some(result) = iter.next() {
-            let (label, value): (String, f64) = result?;
-            println!("label: {}  value: {}", label, value);
-            Ok(())
-        } else {
-            Err(From::from("expected at least one record but got none"))
+        // if let Some(result) = iter.next() {
+        //     let (label, value): (String, f64) = result?;
+        //     println!("label: {}  value: {}", label, value);
+        //     Ok(())
+        // } else {
+        //     Err(From::from("expected at least one record but got none"))
+        // }
+
+        for row in a.rows() {
+            println!("row={:?}, row[0]={:?}", row, row[0]);
         }
+        Ok(())
     } else {
         //Error::Msg("Cannot find 'Sheet1'");
         Err(From::from("Cannot find 'Sheet1'"))
