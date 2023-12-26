@@ -1,6 +1,7 @@
 [workspace]
 members=[
-    "calademo"
+    "calademo",
+    "cala2003demo"
 ]
 
 [workspace.dependencies]
