@@ -1,6 +1,8 @@
 # PyO3 demo
 
-## 全局安装工具
+## 打包成 Python 库
+
+### 全局安装工具
 
 ```bash
 # 他自己提供了个开发工具，安装此开发工具
@@ -16,7 +18,7 @@ pipx install maturin
 maturin build
 ```
 
-## 在 Python 虚拟环境中安装工具
+### 在 Python 虚拟环境中安装工具
 
 ```bash
 # 初始化项目
@@ -46,3 +48,7 @@ maturin develop
 python
 # 此时已经可以使用该库了。
 ```
+
+## 调用 Python
+
+这部分看示例是 Linux 的，没做。
