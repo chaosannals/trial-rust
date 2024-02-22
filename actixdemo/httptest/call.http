@@ -1,0 +1,25 @@
+@host = http://127.0.0.1:44444
+
+###
+# @name hello
+GET {{host}}/hello HTTP/1.1
+
+
+###
+# @name login
+POST {{host}}/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "appkey": "" // appkey
+}
+
+### 
+# @name test
+POST {{host}}/test
+Content-Type: application/json
+Token: {{login.response.body.token}}
+
+{
+    "message": "11111"
+}

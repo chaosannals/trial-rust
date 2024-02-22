@@ -3,10 +3,23 @@
 ## cargo 常用命令
 
 ```bash
+# 可执行文件
+cargo new --bin yourapp
+# 库
+cargo new --lib yourlib
+
+# init 唯一区别于 new 的点就是 不会建目录，而是在目录内初始化。
+cargo init --bin yourapp
+```
+
+```bash
 # workspace 指定构建项目
 # -p 更通用，可以指定 lib 库类型
 cargo build -p yourapp
 cargo build --bin yourapp
+
+# 指定编译目标
+cargo build --release --target=x86_64-unknown-linux-musl
 
 # workspace 指定运行项目
 # -p 更通用，可以指定 lib 库类型
@@ -22,6 +35,22 @@ cargo install cargo-generate
 
 # 指定 git 安装模板(这里是 slint 的示例)
 cargo generate --git https://github.com/slint-ui/slint-rust-template
+```
+
+## rustup 命令
+
+```bash
+# 更新
+rustup update
+
+# 添加 linux 目标用作交叉编译
+rustup target add x86_64-unknown-linux-musl
+
+# 列举 编译工具集合
+rustup target list
+
+# 指定编译目标
+cargo build --release --target=x86_64-unknown-linux-musl
 ```
 
 ## 配置镜像
