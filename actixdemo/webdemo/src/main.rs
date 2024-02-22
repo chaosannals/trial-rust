@@ -1,31 +1,16 @@
-use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
+use actix_web::{web, App, HttpServer};
 
-struct AppStateWithCounter {
-    counter: Mutex<i32>, // <- Mutex 线程安全
-}
-
-#[get("/hello")]
-async fn hello() -> impl Responder {
-    HttpResponse::Ok().body("Hello world!")
-}
-
-#[post("/echo")]
-async fn echo(req_body: String) -> impl Responder {
-    HttpResponse::Ok().body(req_body)
-}
-
-async fn manual_hello() -> impl Responder {
-    HttpResponse::Ok().body("Hey there!")
-}
+mod app;
 
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    HttpServer::new(|| {
+    HttpServer::new(&move || {
+        let hello_config = app::hello::make_config();
         App::new()
-            .service(hello)
-            .service(echo)
-            .route("/hey", web::get().to(manual_hello))
+            .configure(app::config)
+            .service(web::scope("/hello").configure(hello_config))
+            .service(web::scope("/scopedapi").configure(app::scoped_config))
     })
     .bind(("0.0.0.0", 44444))?
     .run()

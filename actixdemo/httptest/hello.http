@@ -4,6 +4,12 @@
 # @name hello
 GET {{host}}/hello HTTP/1.1
 
+###
+# @name echo
+POST {{host}}/hello/echo HTTP/1.1
+
+AAABBBCCC
+
 
 ###
 # @name login
