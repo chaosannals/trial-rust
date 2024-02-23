@@ -13,7 +13,7 @@ async fn main() -> std::io::Result<()> {
 
     HttpServer::new(move || {
         // 初始的时候会生成多个线程相互独立，所以这里面的变量也是多份的且在内存常驻。
-        let hello_config_arc = hello_config.clone();
+        let hello_config_arc = hello_config.clone(); // 异步引用，即使这里 clone 多分也只引用了外部的 hello_config
         
         log::info!("on new.");
         App::new()
