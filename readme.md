@@ -106,12 +106,22 @@ cargo watch -w src/ -x run
 
 ### [musl](https://musl.cc)
 
-Win10 下载工具集 [Musl](https://musl.cc/x86_64-linux-musl-cross.tgz)
-解压并添加目录下 x86_64-linux-musl/bin 目录到 PATH
+注：网上一些博客是错的，他实验的时候切换多个版本，导致 target 里面其实是多个版本的缓存结果，而他记录到博客的，其实是混合的结果，他并没有从头走一遍流程。
+
+Win10 下载工具集
+
+[x86_64-linux-musl-cross](https://musl.cc/x86_64-linux-musl-cross.tgz) (这个亲测是不行的，应该是原作者试的时候由于缓存导致这个成功了。)
+
+[x86_64-w64-mingw32-cross](https://musl.cc/x86_64-w64-mingw32-cross.tgz)(这个可以)
+
+解压并添加目录下 bin 目录到 PATH 里面。
 
 修改 ~/.cargo/config ，添加编译参数 配置链接器为 lld 
 ```ini
 [target.x86_64-unknown-linux-musl]
+linker = "x86_64-w64-mingw32-gcc"
+rustflags = ["-Clinker=rust-lld"]
+# 这2个 rustflags 应该是一个意思，但是可能由于编译器版本需要使用指定的。测试时使用上面个这个。
 rustflags = ["-C", "linker-flavor=ld.lld"]
 ```
 
