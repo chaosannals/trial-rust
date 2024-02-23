@@ -7,6 +7,8 @@ mod app;
 async fn main() -> std::io::Result<()> {
     env_logger::init_from_env(env_logger::Env::new().default_filter_or("info"));
 
+    // 这种返回 高阶函数的做法 Windows 下正常
+    // 但是会导致 Windows 交叉编译 Linux 失败，可能是编译器不支持这么返回值。
     let hello_config = app::hello::make_config();
     let port = 44444;
     log::info!("starting HTTP server at http://localhost:{:?}", port);
@@ -20,7 +22,7 @@ async fn main() -> std::io::Result<()> {
             .wrap(middleware::Logger::default())
             .configure(app::config)
             // configure 不支持 arc ，类型又解不出来，只能直接多套一层闭包（只是为了让类型对上。。）了。再调一次。
-            .service(web::scope("/hello").configure(|x| {hello_config_arc(x)}))
+            .service(web::scope("/hello").configure(|cfg| {hello_config_arc(cfg)}))
             .service(web::scope("/scopedapi").configure(app::scoped_config))
     })
     .bind(("0.0.0.0", port))?
