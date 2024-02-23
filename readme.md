@@ -46,8 +46,11 @@ rustup update
 # 添加 linux 目标用作交叉编译
 rustup target add x86_64-unknown-linux-musl
 
-# 列举 编译工具集合
+# 列举所有编译工具集合
 rustup target list
+
+# 查看信息 可查看已安装 target
+rustup show
 
 # 指定编译目标
 cargo build --release --target=x86_64-unknown-linux-musl
@@ -97,3 +100,33 @@ cargo watch -w src/ -x run
 - [sqlx]()
 - [diesel]()
 - [rusqlite](https://github.com/rusqlite/rusqlite)
+
+
+## 交叉编译
+
+### [musl](https://musl.cc)
+
+Win10 下载工具集 [Musl](https://musl.cc/x86_64-linux-musl-cross.tgz)
+解压并添加目录下 x86_64-linux-musl/bin 目录到 PATH
+
+修改 ~/.cargo/config ，添加编译参数 配置链接器为 lld 
+```ini
+[target.x86_64-unknown-linux-musl]
+rustflags = ["-C", "linker-flavor=ld.lld"]
+```
+
+```bash
+# 添加 linux 目标用作交叉编译
+rustup target add x86_64-unknown-linux-musl
+
+# 指定编译目标
+cargo build --release --target=x86_64-unknown-linux-musl
+```
+
+
+### cross
+
+```bash
+# 使用 docker 进行编译的交叉编译工具。
+cargo install cross --git https://github.com/cross-rs/cross
+```
