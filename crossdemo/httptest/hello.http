@@ -1,0 +1,5 @@
+@host = http://127.0.0.1:40404
+
+###
+# @name hello
+GET {{host}}/hello HTTP/1.1
