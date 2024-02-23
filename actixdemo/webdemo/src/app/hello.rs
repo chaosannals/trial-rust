@@ -1,4 +1,5 @@
 use std::sync::Mutex;
+use std::sync::Arc;
 use actix_web::{get, post, web, HttpResponse, Responder};
 
 struct AppStateWithCounter {
@@ -22,12 +23,16 @@ async fn manual_hello() -> impl Responder {
     HttpResponse::Ok().body("Hey there!")
 }
 
-pub fn make_config() -> Box<dyn for<'a> Fn(&'a mut web::ServiceConfig)>  {
+// pub fn make_config() -> Arc<dyn for<'a> Fn(&'a mut web::ServiceConfig) + Send + 'static>  {
+    pub fn make_config() -> Arc<dyn Fn(& mut web::ServiceConfig) + Send + Sync + 'static>  {
+// pub fn make_config() -> Arc<Box<dyn for<'a> Fn(&'a mut web::ServiceConfig)>>  {
+    log::info!("on make_config");
+
     let counter = web::Data::new(AppStateWithCounter {
         counter: Mutex::new(0),
     });
 
-    Box::new(move | cfg: &mut web::ServiceConfig | {
+    Arc::new(move | cfg: &mut web::ServiceConfig | {
         cfg.app_data(counter.clone())
         .service(hello)
         .service(echo)
