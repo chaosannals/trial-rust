@@ -1,5 +1,18 @@
 # trial rust
 
+## rustup
+
+```bash
+# 清华源
+export RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
+```
+
+```bat
+@rem 清华源
+set RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
+```
+
+
 ## cargo 常用命令
 
 ```bash
