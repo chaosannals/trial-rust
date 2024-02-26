@@ -1,6 +1,10 @@
 use actix_web::{error};
 use derive_more::{Display, Error};
-use serde::{Serialize, Deserialize};
+use serde::{
+    Serialize,
+    // Deserialize,
+};
+// use std::error::Error;
 
 #[derive(Debug, Display, Error)]
 #[display(fmt = "api error: {}", content)]
@@ -21,8 +25,13 @@ pub struct ApiJsonError {
 impl error::ResponseError for ApiJsonError {}
 impl ApiJsonError {
     pub fn new<T: Serialize>(m: &T) -> ApiJsonError {
-        ApiJsonError {
-            content: serde_json::to_string(&m).unwrap()
+        match serde_json::to_string(&m) {
+            Ok(r) => ApiJsonError {
+                content: r,
+            },
+            Err(e) => ApiJsonError {
+                content: format!("{{ code: -1, message: \"json encode error: {:?} \" }}", e),
+            },
         }
     }
 }

@@ -13,13 +13,13 @@ async fn error_respond() -> Result<&'static str, ApiParamError> {
 
 
 #[derive(Serialize, Deserialize, Debug)]
-pub struct ErrorMessage {
+pub struct DemoErrorMessage {
     code: i32,
     message:  &'static str,
 }
 
 async fn error_json() -> Result<&'static str, ApiJsonError> {
-    let m = ErrorMessage {
+    let m = DemoErrorMessage {
         code: 123,
         // message: msg,
         message: "aaaaa",
