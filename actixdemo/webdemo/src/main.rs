@@ -1,4 +1,5 @@
-use actix_web::{web, middleware, App, HttpServer};
+use actix_web::{web, middleware, http::KeepAlive, App, HttpServer};
+// use std::time::Duration;
 
 mod app;
 
@@ -25,6 +26,10 @@ async fn main() -> std::io::Result<()> {
             .service(web::scope("/hello").configure(|cfg| {hello_config_arc(cfg)}))
             .service(web::scope("/scopedapi").configure(app::scoped_config))
     })
+    .workers(4) // 指定 workers 数量，默认是 CPU 线程数。
+    // 指定 keep_alive 时间
+    // .keep_alive(Duration::from_secs(75))
+    .keep_alive(KeepAlive::Os)
     .bind(("0.0.0.0", port))?
     .run()
     .await

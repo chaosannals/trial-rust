@@ -1,6 +1,8 @@
 use std::sync::Mutex;
 use std::sync::Arc;
 use actix_web::{get, post, web, HttpResponse, Responder};
+use std::time::Duration;
+use actix_web::rt::time;
 
 struct AppStateWithCounter {
     counter: Mutex<i32>, // <- Mutex 线程安全
@@ -16,6 +18,8 @@ async fn hello(data: web::Data<AppStateWithCounter>) -> impl Responder {
 
 #[post("/echo")]
 async fn echo(req_body: String) -> impl Responder {
+    // std::thread::sleep(Duration::from_secs(5)); // 线程方式虽然不依赖特定的异步库，但是不好。
+    time::sleep(Duration::from_secs(5)).await; // 等待要用 异步方式。
     HttpResponse::Ok().body(req_body)
 }
 
