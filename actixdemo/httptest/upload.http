@@ -1,0 +1,20 @@
+@host = http://127.0.0.1:44444
+@token = "aaaaaa"
+
+###
+# @name uploadFile
+POST {{host}}/upload_file HTTP/1.1
+Authorization: {{token}}
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="image1"; filename="my_image.jpg"
+Content-Type: image/jpeg
+
+< ./my_image.jpg
+--boundary
+Content-Disposition: form-data; name="image2"; filename="my_image.jpg"
+Content-Type: image/jpeg
+
+< ./my_image.jpg
+--boundary--

@@ -11,15 +11,6 @@ POST {{host}}/hello/echo HTTP/1.1
 AAABBBCCC
 
 
-###
-# @name login
-POST {{host}}/login HTTP/1.1
-Content-Type: application/json
-
-{
-    "appkey": "" // appkey
-}
-
 ### 
 # @name test
 POST {{host}}/test

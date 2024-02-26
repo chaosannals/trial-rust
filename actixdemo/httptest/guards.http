@@ -1,0 +1,23 @@
+@host = http://127.0.0.1:44444
+
+###
+# @name guardTest
+# 加了守卫，必须带 Content-Type, 不然是 404
+# 排除了 Put
+POST {{host}}/guard_test HTTP/1.1
+Content-Type: application/json
+
+{
+    "AA": 1
+}
+
+###
+# @name guardTestPut
+# 加了守卫，必须带 Content-Type, 不然是 404
+# 排除了 Put
+PUT {{host}}/guard_test HTTP/1.1
+Content-Type: application/json
+
+{
+    "AA": 1
+}

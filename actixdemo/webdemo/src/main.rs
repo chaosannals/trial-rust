@@ -1,4 +1,13 @@
-use actix_web::{web, middleware, http::KeepAlive, App, HttpServer};
+use actix_web::{
+    web,
+    middleware,
+    http::{
+        KeepAlive,
+        header::ContentEncoding
+    },
+    App,
+    HttpServer
+};
 // use std::time::Duration;
 
 mod app;
@@ -21,6 +30,7 @@ async fn main() -> std::io::Result<()> {
         log::info!("on new.");
         App::new()
             .wrap(middleware::Logger::default())
+            // .wrap(middleware::Compress::default())
             .configure(app::config)
             // configure 不支持 arc ，类型又解不出来，只能直接多套一层闭包（只是为了让类型对上。。）了。再调一次。
             .service(web::scope("/hello").configure(|cfg| {hello_config_arc(cfg)}))
