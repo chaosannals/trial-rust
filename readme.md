@@ -1,5 +1,18 @@
 # trial rust
 
+## rustup
+
+```bash
+# 清华源
+export RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
+```
+
+```bat
+@rem 清华源
+set RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
+```
+
+
 ## cargo 常用命令
 
 ```bash
@@ -133,6 +146,7 @@ rustup target add x86_64-unknown-linux-musl
 cargo build --release --target=x86_64-unknown-linux-musl
 ```
 
+注：交叉编译遇到 依赖 C 库的库时需要安装对应的编译工具和依赖库，很是麻烦。建议使用 WSL 或 虚拟机 Docker 等去编译。
 
 ### cross
 
