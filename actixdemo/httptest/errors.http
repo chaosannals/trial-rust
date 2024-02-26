@@ -1,0 +1,10 @@
+@host = http://127.0.0.1:44444
+
+###
+# @name errorRespond
+GET {{host}}/error_respond HTTP/1.1
+
+
+###
+# @name errorJson
+GET {{host}}/error_json HTTP/1.1

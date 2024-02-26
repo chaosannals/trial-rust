@@ -28,7 +28,7 @@ async fn manual_hello() -> impl Responder {
 }
 
 // pub fn make_config() -> Arc<dyn for<'a> Fn(&'a mut web::ServiceConfig) + Send + 'static>  {
-    pub fn make_config() -> Arc<dyn Fn(& mut web::ServiceConfig) + Send + Sync + 'static>  {
+pub fn make_config() -> Arc<dyn Fn(& mut web::ServiceConfig) + Send + Sync + 'static>  {
 // pub fn make_config() -> Arc<Box<dyn for<'a> Fn(&'a mut web::ServiceConfig)>>  {
     log::info!("on make_config");
 

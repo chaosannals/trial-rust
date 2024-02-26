@@ -12,6 +12,12 @@ export RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
 set RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
 ```
 
+## C 混编的问题
+
+```bash
+# 查看 glic6 版本
+strings /lib/libc.so.6 | grep GLIBC_
+```
 
 ## cargo 常用命令
 
@@ -154,3 +160,58 @@ cargo build --release --target=x86_64-unknown-linux-musl
 # 使用 docker 进行编译的交叉编译工具。
 cargo install cross --git https://github.com/cross-rs/cross
 ```
+
+### wsl
+
+```bat
+@rem 关闭再打开 = 重启
+wsl --shutdown
+wsl
+```
+
+```bat
+@rem 切换 默认系统
+wslconfig /setdefault Ubuntu-22.04
+```
+
+```bash
+# 安装
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+# vim 打开 /etc/profile 把 PATH 的修改命令写入
+vi /etc/profile
+```
+
+```bash
+# 如果 $HOME/.cargo/bin 存在则加入 PATH
+if [ -d "$HOME/.cargo/bin" ] ; then
+	PATH="$HOME/.cargo/bin:$PATH"
+fi
+```
+注：需要手动添加 $HOME/.cargo/bin 到 PATH 环境变量，不然找不到 rustup
+
+
+#### musl
+
+ubuntu 安装
+
+```bash
+# 会自动安装 musl-dev
+apt install musl-tools
+```
+
+编译
+```bash
+# 下载 musl
+wget https://musl.libc.org/releases/musl-1.2.4.tar.gz
+
+# 解压
+tar zxvf musl-1.2.4.tar.gz
+
+#
+cd musl-1.2.4
+./configure
+make
+make install
+```
+
