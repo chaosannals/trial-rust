@@ -7,8 +7,10 @@ use actix_web::{
         header::ContentEncoding
     },
     App,
-    HttpServer
+    HttpServer,
+    cookie::Key
 };
+use actix_session::{SessionMiddleware, storage::CookieSessionStore};
 use futures_util::future::FutureExt;
 // use std::time::Duration;
 
@@ -33,6 +35,7 @@ async fn main() -> std::io::Result<()> {
         log::info!("on new.");
         App::new()
             .wrap(middleware::Logger::default())
+            .wrap(middleware::DefaultHeaders::new().add(("X-Version", "0.2")))
             .wrap(service::hi::SayHi::default()) // 类定义的 wrap 全局加入起效
             // wrap_fn 直接挂闭包函数
             .wrap_fn(|req, srv| {
@@ -42,6 +45,12 @@ async fn main() -> std::io::Result<()> {
                     res
                 })
             })
+            .wrap(
+                // create cookie based session middleware
+                SessionMiddleware::builder(CookieSessionStore::default(), Key::from(&[0; 64]))
+                    .cookie_secure(false)
+                    .build()
+            )
             // .wrap(middleware::Compress::default())
             .configure(app::config)
             // configure 不支持 arc ，类型又解不出来，只能直接多套一层闭包（只是为了让类型对上。。）了。再调一次。

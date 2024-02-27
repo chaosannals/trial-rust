@@ -1,19 +1,42 @@
-use std::sync::Mutex;
-use std::sync::Arc;
-use actix_web::{get, post, web, HttpResponse, Responder};
+use std::sync::{Mutex,Arc};
+use actix_web::{
+    get,
+    post,
+    web,
+    rt::time,
+    HttpResponse,
+    Responder,
+    Error,
+};
+use actix_session::{
+    Session,
+};
 use std::time::Duration;
-use actix_web::rt::time;
 
 struct AppStateWithCounter {
     counter: Mutex<i32>, // <- Mutex 线程安全
 }
 
 #[get("")]
-async fn hello(data: web::Data<AppStateWithCounter>) -> impl Responder {
+async fn hello(data: web::Data<AppStateWithCounter>, session: Session) -> Result<HttpResponse, Error> {
     let mut counter = data.counter.lock().unwrap(); // <- get counter's MutexGuard
     *counter += 1; // <- access counter inside MutexGuard
 
-    HttpResponse::Ok().body(format!("Request number: {counter}"))
+    if let Some(count) = session.get::<i32>("counter")? {
+        session.insert("counter", count + 1)?;
+    } else {
+        session.insert("counter", 1)?;
+    }
+
+    Ok(
+        HttpResponse::Ok()
+            .body(
+                format!(
+                    "Request total number: {counter}  session number: {:?}",
+                    session.get::<i32>("counter")?.unwrap()
+                )
+            )
+    )
 }
 
 #[post("/echo")]

@@ -2,7 +2,7 @@ use std::task::Poll;
 
 use actix_web::{
     http::{self, header::ContentEncoding, StatusCode},
-    web, App, Error, HttpRequest, HttpResponse,
+    web, Error, HttpRequest, HttpResponse,
 };
 use futures::stream;
 
