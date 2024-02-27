@@ -12,11 +12,13 @@ fn main() {
     let assets_dir = Path::new("res");
     let out_dir = std::env::var("OUT_DIR").unwrap();
     p!("out: {:?}", out_dir);
+    let profile = std::env::var("PROFILE").unwrap();
+    p!("profile: {:?}", profile);
     let mut target_dir = Path::new(&out_dir);
     loop {
         match target_dir.file_name() {
             Some(n) => {
-                if n == "debug" {
+                if profile.eq(n.to_str().unwrap()) {
                     break;
                 }
             }
