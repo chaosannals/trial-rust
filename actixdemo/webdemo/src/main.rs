@@ -23,6 +23,7 @@ use actix_web::{
 };
 use actix_session::{SessionMiddleware, storage::CookieSessionStore};
 use actix_files as fs;
+// use actix_redis::RedisSessionBackend;
 use futures_util::future::FutureExt;
 // use std::time::Duration;
 use std::{
@@ -47,12 +48,6 @@ fn add_error_header<B>(mut res: dev::ServiceResponse<B>) -> Result<ErrorHandlerR
 async fn main() -> std::io::Result<()> {
     env_logger::init_from_env(env_logger::Env::new().default_filter_or("info"));
 
-    // 这种返回 高阶函数的做法 Windows 下正常
-    // 但是会导致 Windows 交叉编译 Linux 失败，可能是编译器不支持这么返回值。
-    let hello_config = app::hello::make_config();
-    let port = 44444;
-    log::info!("starting HTTP server at http://localhost:{:?}", port);
-
     // 这个是运行目录。
     //log::info!("current workspace dir: {:?}", env::current_dir().unwrap());
     let exe_path_str = env::current_exe().unwrap();
@@ -62,6 +57,17 @@ async fn main() -> std::io::Result<()> {
     let res_dir = exe_dir.join("res");
     log::info!("res dir: {:?}", res_dir);
 
+    let env_path = exe_dir.join(".env");
+    log::info!(".env path: {:?}", env_path);
+    dotenvy::from_path(env_path).ok();
+
+    // 这种返回 高阶函数的做法 Windows 下正常
+    // 但是会导致 Windows 交叉编译 Linux 失败，可能是编译器不支持这么返回值。
+    let hello_config = app::hello::make_config();
+    let port = 44444;
+    log::info!("starting HTTP server at http://localhost:{:?}", port);
+
+    
 
     HttpServer::new(move || {
         // 初始的时候会生成多个线程(默认好像是CPU线程数)相互独立，所以这里面的变量也是多份的且在内存常驻。

@@ -32,6 +32,13 @@ fn main() {
 
     let dest_path = target_dir.join("res");
     p!("dest path: {:?}", dest_path);
+
+    let env_path = Path::new(".env");
+    if env_path.is_file() {
+        let env_out_path = target_dir.join(".env");
+        p!(".env path: {:?} => {:?}", env_path, env_out_path);
+        fs::copy(&env_path, &env_out_path).unwrap();
+    }
     
     // 创建目标目录
     fs::create_dir_all(&dest_path).unwrap();

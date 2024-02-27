@@ -39,6 +39,7 @@ struct ChefNameResult {
 }
 
 /// MySQL	mysql://root:root@localhost:3306
+/// MySQL	mysql://root:root@localhost:3306/db_name
 /// PostgreSQL	postgres://root:root@localhost:5432
 /// SQLite (in file)	sqlite:./sqlite.db?mode=rwc
 /// SQLite (in memory)	sqlite::memory:
