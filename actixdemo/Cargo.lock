@@ -2033,6 +2033,7 @@ dependencies = [
  "derive_more",
  "env_logger",
  "futures",
+ "futures-util",
  "log",
  "serde",
  "serde_json",

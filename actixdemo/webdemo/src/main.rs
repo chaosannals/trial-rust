@@ -1,4 +1,5 @@
 use actix_web::{
+    dev::Service as _,
     web,
     middleware,
     http::{
@@ -8,9 +9,11 @@ use actix_web::{
     App,
     HttpServer
 };
+use futures_util::future::FutureExt;
 // use std::time::Duration;
 
 mod app;
+mod service;
 
 
 #[actix_web::main]
@@ -30,10 +33,22 @@ async fn main() -> std::io::Result<()> {
         log::info!("on new.");
         App::new()
             .wrap(middleware::Logger::default())
+            .wrap(service::hi::SayHi::default()) // 类定义的 wrap 全局加入起效
+            // wrap_fn 直接挂闭包函数
+            .wrap_fn(|req, srv| {
+                log::info!("[fn] Hi from start. You requested: {}", req.path());
+                srv.call(req).map(|res| {
+                    log::info!("[fn] Hi from response");
+                    res
+                })
+            })
             // .wrap(middleware::Compress::default())
             .configure(app::config)
             // configure 不支持 arc ，类型又解不出来，只能直接多套一层闭包（只是为了让类型对上。。）了。再调一次。
-            .service(web::scope("/hello").configure(|cfg| {hello_config_arc(cfg)}))
+            .service(
+                web::scope("/hello")
+                .configure(|cfg| {hello_config_arc(cfg)})
+            )
             .service(web::scope("/scopedapi").configure(app::scoped_config))
     })
     .workers(4) // 指定 workers 数量，默认是 CPU 线程数。
