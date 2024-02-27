@@ -1,14 +1,25 @@
 use actix_web::{
+    dev,
     dev::Service as _,
     web,
-    middleware,
     http::{
         KeepAlive,
-        header::ContentEncoding
+        StatusCode,
+        header,
+        // header::{ContentEncoding},
     },
     App,
     HttpServer,
-    cookie::Key
+    HttpResponse,
+    cookie::Key,
+    // middleware,
+    middleware::{
+        ErrorHandlerResponse,
+        ErrorHandlers,
+        Logger,
+        DefaultHeaders,
+    },
+    Result,
 };
 use actix_session::{SessionMiddleware, storage::CookieSessionStore};
 use futures_util::future::FutureExt;
@@ -17,6 +28,15 @@ use futures_util::future::FutureExt;
 mod app;
 mod service;
 
+
+fn add_error_header<B>(mut res: dev::ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
+    res.response_mut().headers_mut().insert(
+        header::CONTENT_TYPE,
+        header::HeaderValue::from_static("Error"), // content-type: error
+    );
+
+    Ok(ErrorHandlerResponse::Response(res.map_into_left_body()))
+}
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -34,8 +54,8 @@ async fn main() -> std::io::Result<()> {
         
         log::info!("on new.");
         App::new()
-            .wrap(middleware::Logger::default())
-            .wrap(middleware::DefaultHeaders::new().add(("X-Version", "0.2")))
+            .wrap(Logger::default())
+            .wrap(DefaultHeaders::new().add(("X-Version", "0.2")))
             .wrap(service::hi::SayHi::default()) // 类定义的 wrap 全局加入起效
             // wrap_fn 直接挂闭包函数
             .wrap_fn(|req, srv| {
@@ -51,6 +71,11 @@ async fn main() -> std::io::Result<()> {
                     .cookie_secure(false)
                     .build()
             )
+            .wrap(
+                ErrorHandlers::new()
+                    .handler(StatusCode::INTERNAL_SERVER_ERROR, add_error_header),
+            )
+            .service(web::resource("/error_internal").route(web::get().to(HttpResponse::InternalServerError)))
             // .wrap(middleware::Compress::default())
             .configure(app::config)
             // configure 不支持 arc ，类型又解不出来，只能直接多套一层闭包（只是为了让类型对上。。）了。再调一次。
