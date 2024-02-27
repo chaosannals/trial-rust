@@ -1,0 +1,5 @@
+@host = http://127.0.0.1:44444
+
+###
+# @name get123txt
+GET {{host}}/res/123.txt HTTP/1.1

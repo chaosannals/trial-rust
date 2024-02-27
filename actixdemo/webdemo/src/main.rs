@@ -22,8 +22,13 @@ use actix_web::{
     Result,
 };
 use actix_session::{SessionMiddleware, storage::CookieSessionStore};
+use actix_files as fs;
 use futures_util::future::FutureExt;
 // use std::time::Duration;
+use std::{
+    env,
+    path::Path,
+};
 
 mod app;
 mod service;
@@ -47,6 +52,16 @@ async fn main() -> std::io::Result<()> {
     let hello_config = app::hello::make_config();
     let port = 44444;
     log::info!("starting HTTP server at http://localhost:{:?}", port);
+
+    // 这个是运行目录。
+    //log::info!("current workspace dir: {:?}", env::current_dir().unwrap());
+    let exe_path_str = env::current_exe().unwrap();
+    let exe_path = Path::new(&exe_path_str);
+    let exe_dir = exe_path.parent().unwrap();
+    log::info!("current exe dir: {:?}", exe_dir);
+    let res_dir = exe_dir.join("res");
+    log::info!("res dir: {:?}", res_dir);
+
 
     HttpServer::new(move || {
         // 初始的时候会生成多个线程(默认好像是CPU线程数)相互独立，所以这里面的变量也是多份的且在内存常驻。
@@ -74,6 +89,11 @@ async fn main() -> std::io::Result<()> {
             .wrap(
                 ErrorHandlers::new()
                     .handler(StatusCode::INTERNAL_SERVER_ERROR, add_error_header),
+            )
+            .service(
+                fs::Files::new("/res", res_dir.clone())
+                    .show_files_listing()
+                    .use_last_modified(true),
             )
             .service(web::resource("/error_internal").route(web::get().to(HttpResponse::InternalServerError)))
             // .wrap(middleware::Compress::default())
