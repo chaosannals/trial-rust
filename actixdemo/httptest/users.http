@@ -1,0 +1,5 @@
+@host = http://127.0.0.1:44444
+
+###
+# @name add
+POST {{host}}/users/add HTTP/1.1

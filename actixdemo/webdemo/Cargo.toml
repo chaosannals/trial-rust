@@ -20,3 +20,4 @@ serde.workspace = true
 serde_json.workspace = true
 futures.workspace = true
 futures-util.workspace = true
+chrono.workspace = true

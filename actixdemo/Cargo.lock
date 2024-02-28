@@ -844,8 +844,10 @@ checksum = "5bc015644b92d5890fab7489e49d21f879d5c990186827d42ec511919404f38b"
 dependencies = [
  "android-tzdata",
  "iana-time-zone",
+ "js-sys",
  "num-traits",
  "serde",
+ "wasm-bindgen",
  "windows-targets 0.52.0",
 ]
 
@@ -3587,6 +3589,7 @@ dependencies = [
  "actix-files",
  "actix-session",
  "actix-web",
+ "chrono",
  "derive_more",
  "dotenvy",
  "env_logger",

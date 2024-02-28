@@ -31,9 +31,14 @@ use std::{
     path::Path,
 };
 
-mod app;
-mod service;
+use sea_orm::{
+    Database,
+    DatabaseConnection,
+};
 
+mod app;
+mod entities;
+mod service;
 
 fn add_error_header<B>(mut res: dev::ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
     res.response_mut().headers_mut().insert(
@@ -67,7 +72,14 @@ async fn main() -> std::io::Result<()> {
     let port = 44444;
     log::info!("starting HTTP server at http://localhost:{:?}", port);
 
-    
+    let db_url = env::var("DATABASE_URL").expect("DATABASE_URL is not set in .env file");
+    log::info!("DB URL: {:?}", db_url);
+
+    let conn = Database::connect(&db_url).await.unwrap();
+    // Migrator::up(&conn, None).await.unwrap(); // 指定迁移。
+
+    // app 状态
+    let state = app::AppState { conn };
 
     HttpServer::new(move || {
         // 初始的时候会生成多个线程(默认好像是CPU线程数)相互独立，所以这里面的变量也是多份的且在内存常驻。
@@ -75,6 +87,7 @@ async fn main() -> std::io::Result<()> {
         
         log::info!("on new.");
         App::new()
+            .app_data(web::Data::new(state.clone()))
             .wrap(Logger::default())
             .wrap(DefaultHeaders::new().add(("X-Version", "0.2")))
             .wrap(service::hi::SayHi::default()) // 类定义的 wrap 全局加入起效
@@ -95,6 +108,10 @@ async fn main() -> std::io::Result<()> {
             .wrap(
                 ErrorHandlers::new()
                     .handler(StatusCode::INTERNAL_SERVER_ERROR, add_error_header),
+            )
+            .service(
+                web::scope("/users")
+                .configure(app::users::do_config),
             )
             .service(
                 fs::Files::new("/res", res_dir.clone())

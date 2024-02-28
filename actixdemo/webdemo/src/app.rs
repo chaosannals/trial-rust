@@ -1,14 +1,23 @@
 pub mod hello;
+pub mod users;
 mod streams;
 
 // 流请求，依赖这个扩展
 use futures::StreamExt;
+use sea_orm::{
+    DatabaseConnection,
+};
 
 #[path="errors.rs"]
 mod errors;
 
 #[path="guards.rs"]
 mod guards;
+
+#[derive(Debug, Clone)]
+pub struct AppState {
+    pub conn: DatabaseConnection,
+}
 
 use actix_web::{web, guard, HttpResponse, Responder, Error, Result};
 use errors::{ApiParamError, ApiJsonError};
