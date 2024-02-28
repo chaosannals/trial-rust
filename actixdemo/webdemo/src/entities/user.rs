@@ -11,6 +11,7 @@ pub struct Model {
     pub create_at: DateTime,
 }
 
+// 关联表
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
 pub enum Relation {}
 
