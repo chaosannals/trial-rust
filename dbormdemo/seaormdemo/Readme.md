@@ -4,6 +4,12 @@ Sqlite 不会自动创建数据库文件。
 
 注：外部有个 seaormdemo 是 actix-web 的。
 
+## sea-query = "0.30.7"
+
+这个库应该是 sea-orm 的底层 SQL 库，可以写更底层的 SQL ，但是因为类型喝 sea 的 模型 设计有点出入。所以结合起来比较麻烦。
+需要单独引入。
+TODO 看看是否在 orm fetures 里。
+
 ## sea-orm-migration
 
 ```bash
@@ -61,6 +67,9 @@ sea-orm-cli generate entity -u mysql://root:123456@localhost:3306/demo -o src/en
 
 # 指定 表
 sea-orm-cli generate entity -u mysql://root:123456@localhost:3306/demo -o src/entities -t atx_user
+
+# 带上 serde 序列表特性 none, serialize, deserialize, both  [default: none]
+sea-orm-cli generate entity -u mysql://root:123456@localhost:3306/demo -o src/entities -t atx_user --with-serde both
 
 sea-orm-cli generate entity -u sqlite:./test.db -o src/entities
 ```
