@@ -45,13 +45,22 @@ sea-orm-cli migrate refresh
 cargo install sea-orm-cli
 
 # dbfirst
+
+# 提示
+sea-orm-cli generate -h
+sea-orm-cli generate entity -h
+
 # 根据数据库生成 entity 
 # Sqlite 在不同系统的路径写法差异比较大，需要自行适配。（这些和使用的终端，系统文件系统相关）
 # 以下给出几个示例，如果使用 mysql 这种通过 socket 则不会有此类问题。
 # Mysql 5.6 可能有问题，可以复制表结构到 8.0 再导出。
+# 问题：生成物不会自动加上 serde 标注，修改后又可能在下次生成被该回去。
 sea-orm-cli generate entity -u mysql://root:password@localhost:3306/bakeries_db -o src/entities
 
 sea-orm-cli generate entity -u mysql://root:123456@localhost:3306/demo -o src/entities
+
+# 指定 表
+sea-orm-cli generate entity -u mysql://root:123456@localhost:3306/demo -o src/entities -t atx_user
 
 sea-orm-cli generate entity -u sqlite:./test.db -o src/entities
 ```

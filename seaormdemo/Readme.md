@@ -1,5 +1,7 @@
 # SeaORM
 
+dbormdemo 里面还有示例，有 dbfirst。
+
 此 ORM 的目录有定式，需要按照其目录结构。（参考 SeaORM 源码 examples 目录下的示例）
 
 还有[教程](https://www.sea-ql.org/sea-orm-tutorial)
