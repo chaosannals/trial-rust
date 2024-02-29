@@ -13,6 +13,8 @@ cargo build --release --target=x86_64-unknown-linux-musl
 
 ## Sea Orm
 
+dbfirst 详见 dbormdemo.
+
 ```powershell
 # migrate 配置链接字符串
 $env:DATABASE_URL=mysql://root:123456@127.0.0.1/demo

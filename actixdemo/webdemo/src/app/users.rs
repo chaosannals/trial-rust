@@ -43,7 +43,13 @@ async fn add(data: web::Data<AppState>, param: web::Json<UserAddParam>) -> Resul
     )
 }
 
-async fn find(data: web::Data<AppState>)  -> Result<impl Responder, ApiParamError> {
+
+#[derive(Deserialize)]
+struct UserFindParam {
+
+}
+
+async fn find(data: web::Data<AppState>, param: web::Json<UserFindParam>)  -> Result<impl Responder, ApiParamError> {
     match User::find().all(&data.conn).await {
         Ok(objs) => {
             Ok(
