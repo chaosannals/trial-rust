@@ -6,9 +6,11 @@ use actix_web::{
 };
 
 use std::time::Duration;
+use serde::{Deserialize, Serialize};
 
+#[derive(Deserialize, Serialize, Clone)]
 pub struct JobItem {
-    message: String,
+    pub message: String,
 }
 
 pub type JobsQueue = Arc<Mutex<VecDeque<JobItem>>>;
@@ -20,14 +22,18 @@ pub fn start_queue() -> (JobsQueue, JoinHandle<()>) {
         Arc::clone(&queue),
         rt::spawn(async  move {
             loop {
+                let mut is_idle = false;
                 if let Ok(mut q) = queue.try_lock() {
                     log::info!("worker lock");
                     if let Some(job) = q.pop_back() {
                         log::info!("job lock");
                     } else {
-                        log::info!("not job, sleep.");
-                        rt::time::sleep(Duration::from_millis(10000)).await
+                        is_idle = true;
                     }
+                }
+                if is_idle {
+                    log::info!("not job, sleep.");
+                    rt::time::sleep(Duration::from_millis(10000)).await
                 }
             }
         })

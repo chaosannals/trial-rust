@@ -1,5 +1,6 @@
 pub mod hello;
 pub mod users;
+pub mod jobs;
 mod streams;
 
 // 流请求，依赖这个扩展

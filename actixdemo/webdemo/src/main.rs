@@ -139,6 +139,10 @@ async fn main() -> std::io::Result<()> {
                 .configure(|cfg| {hello_config_arc(cfg)})
             )
             .service(web::scope("/scopedapi").configure(app::scoped_config))
+            .service(
+                web::scope("/job")
+                .configure(app::jobs::do_config)
+            )
     })
     .workers(4) // 指定 workers 数量，默认是 CPU 线程数。
     // 指定 keep_alive 时间
