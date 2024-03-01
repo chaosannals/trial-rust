@@ -1,4 +1,5 @@
 use actix_web::{
+    rt,
     dev,
     dev::Service as _,
     web,
@@ -29,6 +30,7 @@ use futures_util::future::FutureExt;
 use std::{
     env,
     path::Path,
+    time::Duration,
 };
 
 use sea_orm::{
@@ -38,6 +40,7 @@ use sea_orm::{
 
 mod app;
 mod entities;
+mod jobs;
 mod service;
 // mod tasks;
 
@@ -83,6 +86,9 @@ async fn main() -> std::io::Result<()> {
     // let queue = TaskQueue::<PlusFive>::from_registry();
     // let worker = TaskWorker::<PlusFive, PlusFiveResult>::new();
 
+    // 直接通过协程启动 backend 事务。
+    let (rte_jobs, rte_handle) = jobs::rt_ephemeral_jobs::start_queue();
+
     // app 状态
     let state = app::AppState { conn };
 
@@ -92,6 +98,7 @@ async fn main() -> std::io::Result<()> {
         
         log::info!("on new.");
         App::new()
+            .app_data(web::Data::new(rte_jobs.clone()))
             .app_data(web::Data::new(state.clone()))
             .wrap(Logger::default())
             .wrap(DefaultHeaders::new().add(("X-Version", "0.2")))
@@ -139,5 +146,9 @@ async fn main() -> std::io::Result<()> {
     .keep_alive(KeepAlive::Os)
     .bind(("0.0.0.0", port))?
     .run()
-    .await
+    .await;
+
+    rte_handle.await;
+
+    Ok(())
 }

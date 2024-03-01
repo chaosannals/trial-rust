@@ -1,3 +1,4 @@
+//  actix-taskqueue 示例，废弃。
 // #[derive(Debug, Default, Clone, Copy)]
 // pub struct PlusFive(i32);
 // pub struct PlusFiveResult(i32);
