@@ -39,6 +39,7 @@ use sea_orm::{
 mod app;
 mod entities;
 mod service;
+// mod tasks;
 
 fn add_error_header<B>(mut res: dev::ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
     res.response_mut().headers_mut().insert(
@@ -77,6 +78,10 @@ async fn main() -> std::io::Result<()> {
 
     let conn = Database::connect(&db_url).await.unwrap();
     // Migrator::up(&conn, None).await.unwrap(); // 指定迁移。
+
+    // 4 年没维护的库版本对不上 actix 了。
+    // let queue = TaskQueue::<PlusFive>::from_registry();
+    // let worker = TaskWorker::<PlusFive, PlusFiveResult>::new();
 
     // app 状态
     let state = app::AppState { conn };
