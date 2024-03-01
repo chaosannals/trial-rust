@@ -17,6 +17,10 @@ pub type JobsQueue = Arc<Mutex<VecDeque<JobItem>>>;
 
 pub fn start_queue() -> (JobsQueue, JoinHandle<()>) {
     let queue = JobsQueue::default();
+    // 不使用 CancellationToken 导致需要手动关闭开启 backend . 一般服务器不会关闭
+    // tokio 有 CancellationToken 使用会使得框架固定位 tokio 后端
+    // TODO 找到 actix 的 通用版本 CancellationToken
+    // let cache_sweep_cancel = CancellationToken::new();
 
     (
         Arc::clone(&queue),
