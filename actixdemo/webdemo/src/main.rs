@@ -152,6 +152,7 @@ async fn main() -> std::io::Result<()> {
     .run()
     .await;
 
+    rte_handle.abort(); // CancellationToken 在 actix 下被合并到 handle 里了。
     rte_handle.await;
 
     Ok(())
