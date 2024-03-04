@@ -19,6 +19,7 @@ mod guards;
 #[derive(Debug, Clone)]
 pub struct AppState {
     pub conn: DatabaseConnection,
+    pub hmac_md5: String,
 }
 
 use actix_web::{web, guard, HttpResponse, Responder, Error, Result};

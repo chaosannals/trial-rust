@@ -24,3 +24,8 @@ serde_json.workspace = true
 futures.workspace = true
 futures-util.workspace = true
 chrono.workspace = true
+
+hmac.workspace = true
+md-5.workspace = true
+hex-literal.workspace = true
+hex.workspace = true

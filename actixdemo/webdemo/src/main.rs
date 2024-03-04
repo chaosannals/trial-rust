@@ -78,6 +78,8 @@ async fn main() -> std::io::Result<()> {
 
     let db_url = env::var("DATABASE_URL").expect("DATABASE_URL is not set in .env file");
     log::info!("DB URL: {:?}", db_url);
+    let hmac_md5 = env::var("HMAC_MD5_KEY").expect("HMAC_MD5_KEY is not set in .env file");
+    log::info!("HMAC_MD5_KEY: {:?}", hmac_md5);
 
     let conn = Database::connect(&db_url).await.unwrap();
     // Migrator::up(&conn, None).await.unwrap(); // 指定迁移。
@@ -90,7 +92,7 @@ async fn main() -> std::io::Result<()> {
     let (rte_jobs, rte_handle) = jobs::rt_ephemeral_jobs::start_queue();
 
     // app 状态
-    let state = app::AppState { conn };
+    let state = app::AppState { conn, hmac_md5 };
 
     let _ = HttpServer::new(move || {
         // 初始的时候会生成多个线程(默认好像是CPU线程数)相互独立，所以这里面的变量也是多份的且在内存常驻。

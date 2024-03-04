@@ -10,6 +10,13 @@ use actix_web::{
 };
 use awc::Client;
 use crate::app::errors::ApiJsonError;
+use serde::Deserialize;
+
+use md5::Md5;
+use hmac::{Hmac, Mac};
+use hex_literal::hex;
+
+use crate::app::{AppState};
 
 pub async fn get_rust_official() -> Result<impl Responder, ApiJsonError> {
     let client = Client::default();
@@ -58,20 +65,45 @@ pub async fn get_baidu() -> Result<impl Responder, ApiJsonError> {
                     }
                     Err(e) => {
                         // e.into()
-                        Err(ApiJsonError { content: format!("{:?}", e).to_string() })
+                        Err(ApiJsonError { content: format!("error (1) {:?}", e).to_string() })
                     }
                 }
             },
             Err(e) => {
                 // e.into()
-                Err(ApiJsonError { content: format!("{:?}", e).to_string() })
+                Err(ApiJsonError { content: format!("error (2) {:?}", e).to_string() })
             }
         }
 }
 
-pub async fn hmac_md5() -> Result<impl Responder, ApiJsonError> {
-    
-    Ok(HttpResponse::Ok())
+#[derive(Deserialize)]
+struct HmacMd5Param {
+    content: String,
+}
+
+pub async fn hmac_md5(app: web::Data<AppState>, param: web::Json<HmacMd5Param>) -> Result<impl Responder, ApiJsonError> {
+    let key = app.hmac_md5.as_bytes();
+    match Hmac::<Md5>::new_from_slice(key) {
+        Ok(mut mac) => {
+            let content = param.content.as_bytes();
+            mac.update(content);
+            let result = mac.finalize();
+            let code_bytes = result.into_bytes();
+            let cs = (&code_bytes[..]).to_vec();
+            let r = String::from_utf8_lossy(&cs).into_owned();
+            println!("hex: {:x?}", cs);
+            // let h = format!("{:x?}", cs);
+            let h = hex::encode(cs);
+            Ok(HttpResponse::Ok().body(h))
+            // match String::from_utf8((&code_bytes[..]).to_vec()) {
+            //     Ok(r) => Ok(HttpResponse::Ok().body(r)),
+            //     Err(e) => Err(ApiJsonError { content: format!("{:?}", e).to_string() })
+            // }
+        },
+        Err(e) => {
+            Err(ApiJsonError { content: format!("{:?}", e).to_string() })
+        }
+    }
 }
 
 pub fn do_config(cfg: &mut web::ServiceConfig) {
