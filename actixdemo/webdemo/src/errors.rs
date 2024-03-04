@@ -19,7 +19,7 @@ impl error::ResponseError for ApiParamError {}
 #[derive(Debug, Display, Error)]
 #[display(fmt = "{}", content)]
 pub struct ApiJsonError {
-    content: String,
+    pub content: String,
 }
 // 使用 ResponseError 的默认实现
 impl error::ResponseError for ApiJsonError {}

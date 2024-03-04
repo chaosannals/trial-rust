@@ -1,0 +1,10 @@
+@host = http://127.0.0.1:44444
+
+###
+# @name getRustOfficial
+GET {{host}}/web_client/get_rust_official HTTP/1.1
+
+
+###
+# @name getBaidu
+GET {{host}}/web_client/get_baidu HTTP/1.1

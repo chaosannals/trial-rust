@@ -92,7 +92,7 @@ async fn main() -> std::io::Result<()> {
     // app 状态
     let state = app::AppState { conn };
 
-    HttpServer::new(move || {
+    let _ = HttpServer::new(move || {
         // 初始的时候会生成多个线程(默认好像是CPU线程数)相互独立，所以这里面的变量也是多份的且在内存常驻。
         let hello_config_arc = hello_config.clone(); // 异步引用，即使这里 clone 多分也只引用了外部的 hello_config
         
@@ -153,7 +153,7 @@ async fn main() -> std::io::Result<()> {
     .await;
 
     rte_handle.abort(); // CancellationToken 在 actix 下被合并到 handle 里了。
-    rte_handle.await;
+    let _ = rte_handle.await;
 
     Ok(())
 }

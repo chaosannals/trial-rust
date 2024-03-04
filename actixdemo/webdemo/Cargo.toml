@@ -10,6 +10,7 @@ build = "build.rs"
 actix-web.workspace = true
 actix-session.workspace = true
 actix-files.workspace = true
+awc.workspace = true
 # 4 年没维护的库版本对不上 actix 了。引入会导致 actix 部分库版本冲突，编译失败。
 # actix-taskqueue.workspace = true
 env_logger.workspace = true

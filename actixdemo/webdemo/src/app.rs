@@ -2,6 +2,7 @@ pub mod hello;
 pub mod users;
 pub mod jobs;
 mod streams;
+mod web_client;
 
 // 流请求，依赖这个扩展
 use futures::StreamExt;
@@ -86,6 +87,10 @@ pub fn config(cfg: &mut web::ServiceConfig) {
         web::resource("/app")
             .route(web::get().to(|| async { HttpResponse::Ok().body("app") }))
             .route(web::head().to(HttpResponse::MethodNotAllowed)),
+    )
+    .service(
+        web::scope("/web_client")
+                .configure(web_client::do_config),
     )
     .route("/login", web::route().to(login))
     .route("/error_respond", web::get().to(error_respond))
