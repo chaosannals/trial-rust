@@ -14,7 +14,7 @@ use serde::Deserialize;
 
 use md5::Md5;
 use hmac::{Hmac, Mac};
-use hex_literal::hex;
+// use hex_literal::hex;
 
 use crate::app::{AppState};
 
