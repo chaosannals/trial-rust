@@ -17,3 +17,7 @@ Content-Type: application/json
 {
     "content": "213123123123123456"
 }
+
+###
+# @name makeUuid
+GET {{host}}/web_client/make_uuid HTTP/1.1

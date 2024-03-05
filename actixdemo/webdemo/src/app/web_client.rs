@@ -16,6 +16,8 @@ use md5::Md5;
 use hmac::{Hmac, Mac};
 // use hex_literal::hex;
 
+use uuid::Uuid;
+
 use crate::app::{AppState};
 
 pub async fn get_rust_official() -> Result<impl Responder, ApiJsonError> {
@@ -106,9 +108,15 @@ pub async fn hmac_md5(app: web::Data<AppState>, param: web::Json<HmacMd5Param>) 
     }
 }
 
+pub async fn make_uuid() -> Result<impl Responder, ApiJsonError> {
+    let id = Uuid::new_v4();
+    Ok(HttpResponse::Ok().body(id.to_string()))
+}
+
 pub fn do_config(cfg: &mut web::ServiceConfig) {
     cfg
         .route("/get_rust_official", web::route().to(get_rust_official))
         .route("/get_baidu", web::route().to(get_baidu))
-        .route("/hmac_md5", web::route().to(hmac_md5));
+        .route("/hmac_md5", web::route().to(hmac_md5))
+        .route("/make_uuid", web::route().to(make_uuid));
 }
