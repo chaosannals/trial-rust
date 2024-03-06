@@ -21,3 +21,7 @@ Content-Type: application/json
 ###
 # @name makeUuid
 GET {{host}}/web_client/make_uuid HTTP/1.1
+
+###
+# @name exeDir
+GET {{host}}/web_client/exe_dir HTTP/1.1

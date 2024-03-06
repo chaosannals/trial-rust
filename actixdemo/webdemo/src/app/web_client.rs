@@ -2,6 +2,7 @@ use actix_web::{
     get,
     post,
     web,
+    web::Json,
     rt::time,
     HttpResponse,
     Responder,
@@ -19,6 +20,9 @@ use hmac::{Hmac, Mac};
 use uuid::Uuid;
 
 use crate::app::{AppState};
+
+// 自定义 lib 名叫 lib-demo ，但是所有的 - 都会在引用时使用 _ 替代。
+use lib_demo::{get_self_exe_dir, get_self_exe_dir_path};
 
 pub async fn get_rust_official() -> Result<impl Responder, ApiJsonError> {
     let client = Client::default();
@@ -113,10 +117,18 @@ pub async fn make_uuid() -> Result<impl Responder, ApiJsonError> {
     Ok(HttpResponse::Ok().body(id.to_string()))
 }
 
+pub async fn exe_dir() -> Result<impl Responder, ApiJsonError> {
+    let the_dir = get_self_exe_dir();
+    let mut env_path = get_self_exe_dir_path();
+    env_path.push(".env");
+    Ok(Json((the_dir, env_path)))
+}
+
 pub fn do_config(cfg: &mut web::ServiceConfig) {
     cfg
         .route("/get_rust_official", web::route().to(get_rust_official))
         .route("/get_baidu", web::route().to(get_baidu))
         .route("/hmac_md5", web::route().to(hmac_md5))
-        .route("/make_uuid", web::route().to(make_uuid));
+        .route("/make_uuid", web::route().to(make_uuid))
+        .route("/exe_dir", web::route().to(exe_dir));
 }

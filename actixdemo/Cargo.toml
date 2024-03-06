@@ -2,7 +2,7 @@
 resolver = "2"
 members = [
     "webdemo",
-    "migration",
+    "migration", "libdemo",
 ]
 
 [workspace.dependencies]
@@ -34,3 +34,5 @@ hex-literal = "0.4.1"
 base64 = "0.22.0"
 hex = "0.4.3"
 uuid = { version = "1.7.0", features = ["v4", "fast-rng", "macro-diagnostics",] }
+
+lib-demo = { path = "libdemo" }

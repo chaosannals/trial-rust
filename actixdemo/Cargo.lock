@@ -1812,6 +1812,31 @@ dependencies = [
 ]
 
 [[package]]
+name = "lib-demo"
+version = "0.1.0"
+dependencies = [
+ "actix-files",
+ "actix-session",
+ "actix-web",
+ "awc",
+ "chrono",
+ "derive_more",
+ "dotenvy",
+ "env_logger",
+ "futures",
+ "futures-util",
+ "hex",
+ "hex-literal",
+ "hmac",
+ "log",
+ "md-5",
+ "sea-orm",
+ "serde",
+ "serde_json",
+ "uuid",
+]
+
+[[package]]
 name = "libc"
 version = "0.2.153"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3768,6 +3793,7 @@ dependencies = [
  "hex",
  "hex-literal",
  "hmac",
+ "lib-demo",
  "log",
  "md-5",
  "sea-orm",
