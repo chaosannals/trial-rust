@@ -1,4 +1,5 @@
 [workspace]
+resolver = "2"
 members = [
     "webdemo",
 ]
@@ -18,7 +19,3 @@ futures = "0.3"
 futures-util = "0.3.30"
 chrono = "0.4.34"
 regex = "1.10.3"
-
-# musl 下面需要添加这个让 openssl-sys build
-[target.x86_64-unknown-linux-musl.dependencies]
-openssl = { version = "0.10.64", features = ["vendored"] }

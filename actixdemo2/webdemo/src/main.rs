@@ -1,3 +1,6 @@
+use chrono::Local;
+
 fn main() {
-    println!("Hello, world!");
+    let now = Local::now().naive_local();
+    println!("now: {:?}", now);
 }
