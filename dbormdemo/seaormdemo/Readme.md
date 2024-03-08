@@ -63,7 +63,7 @@ sea-orm-cli generate entity -h
 # 问题：生成物不会自动加上 serde 标注，修改后又可能在下次生成被该回去。
 sea-orm-cli generate entity -u mysql://root:password@localhost:3306/bakeries_db -o src/entities
 
-sea-orm-cli generate entity -u mysql://root:123456@localhost:3306/demo2 -o src/entities2
+sea-orm-cli generate entity -u mysql://root:123456@localhost:3306/demo2 -o src/entities2 --with-serde both
 
 # 指定 表
 sea-orm-cli generate entity -u mysql://root:123456@localhost:3306/demo -o src/entities -t atx_user
