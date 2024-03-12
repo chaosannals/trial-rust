@@ -797,6 +797,11 @@ checksum = "d4345964bb142484797b161f473a503a434de77149dd8c7427788c6e13379388"
 [[package]]
 name = "lib-demo"
 version = "0.1.0"
+dependencies = [
+ "chrono",
+ "env_logger",
+ "log",
+]
 
 [[package]]
 name = "libc"
@@ -1559,6 +1564,7 @@ dependencies = [
  "actix-web",
  "chrono",
  "env_logger",
+ "lib-demo",
  "log",
  "openssl",
 ]

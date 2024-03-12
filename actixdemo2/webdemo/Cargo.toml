@@ -11,6 +11,8 @@ chrono.workspace = true
 env_logger.workspace = true
 log.workspace = true
 
+lib-demo.workspace = true
+
 # musl 下面需要添加这个让 openssl-sys build
 [target.x86_64-unknown-linux-musl.dependencies]
 openssl = { version = "0.10.64", features = ["vendored"] }

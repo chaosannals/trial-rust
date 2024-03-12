@@ -1,5 +1,4 @@
 use chrono::Local;
-use env_logger::Builder;
 
 use actix_web::{get, web, App, HttpServer, Responder};
 use std::{
@@ -7,6 +6,7 @@ use std::{
     sync::atomic::{AtomicUsize, Ordering},
     sync::Arc,
 };
+use lib_demo::init_env_logger;
 
 #[derive(Clone)]
 struct AppState {
@@ -38,9 +38,8 @@ async fn add_one(data: web::Data<AppState>) -> impl Responder {
 }
 
 #[actix_web::main]
-async fn main() -> std::io::Result<()> {
-    Builder::new()
-        .init();
+async fn main() -> std::io::Result<()> {   
+    init_env_logger();
     let now = Local::now().naive_local();
     log::info!("now: {:?}", now);
 
