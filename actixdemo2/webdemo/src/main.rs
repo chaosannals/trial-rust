@@ -1,3 +1,7 @@
+mod apis;
+mod jobs;
+mod states;
+
 use chrono::Local;
 
 use actix_web::{get, web, App, HttpServer, Responder};
@@ -6,36 +10,11 @@ use std::{
     sync::atomic::{AtomicUsize, Ordering},
     sync::Arc,
 };
-use lib_demo::init_env_logger;
+use lib_demo::{init_env_logger, queue::start_queue};
+use apis::apis_config;
+use jobs::{JobData, bar_jobs::BarJobData, foo_jobs::FooJobData};
+use states::AppState;
 
-#[derive(Clone)]
-struct AppState {
-    local_count: Cell<usize>, // worker 绑定。
-    global_count: Arc<AtomicUsize>, // 全局。
-}
-
-#[get("/show_count")]
-async fn show_count(data: web::Data<AppState>) -> impl Responder {
-    format!(
-        "global_count: {}\nlocal_count: {}",
-        data.global_count.load(Ordering::Relaxed),
-        data.local_count.get()
-    )
-}
-
-#[get("/add_one")]
-async fn add_one(data: web::Data<AppState>) -> impl Responder {
-    data.global_count.fetch_add(1, Ordering::Relaxed);
-
-    let local_count = data.local_count.get();
-    data.local_count.set(local_count + 1);
-
-    format!(
-        "global_count: {}\nlocal_count: {}",
-        data.global_count.load(Ordering::Relaxed),
-        data.local_count.get()
-    )
-}
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {   
@@ -44,17 +23,35 @@ async fn main() -> std::io::Result<()> {
     log::info!("now: {:?}", now);
 
     let data = AppState {
-        local_count: Cell::new(0),
+        // local_count: Cell::new(0),
         global_count: Arc::new(AtomicUsize::new(0)),
     };
 
-    HttpServer::new(move || {
+    let (jobs, jobs_handle) = start_queue::<JobData>();
+    let (bar_jobs, bar_jobs_handle) = start_queue::<BarJobData>();
+    let (foo_jobs, foo_jobs_handle) = start_queue::<FooJobData>();
+
+    let _ = HttpServer::new(move || {
         App::new()
+            .app_data(web::Data::new(jobs.clone()))
+            .app_data(web::Data::new(bar_jobs.clone()))
+            .app_data(web::Data::new(foo_jobs.clone()))
             .app_data(web::Data::new(data.clone()))
-            .service(show_count)
-            .service(add_one)
+            .configure(apis_config)
     })
+    .workers(4)
     .bind(("127.0.0.1", 44321))?
     .run()
-    .await
+    .await;
+
+    bar_jobs_handle.abort();
+    let _ = bar_jobs_handle.await;
+
+    foo_jobs_handle.abort();
+    let _ = foo_jobs_handle.await;
+
+    jobs_handle.abort();
+    let _ = jobs_handle.await;
+
+    Ok(())
 }

@@ -1,10 +1,10 @@
 pub mod fs;
-
+pub mod queue;
 
 use std::io::Write;
 use log::Level;
 use chrono::Local;
-use env_logger::{Builder, fmt::style};
+use env_logger::{Builder, Target, fmt::style};
 
 // 由于 env_logger 把这个类私有了，所以只能直接搬代码了。
 struct MyStyledValue<T> {
@@ -30,6 +30,7 @@ pub fn init_env_logger() {
         env_logger::Env::new()
         .default_filter_or("info")
     )
+    .target(Target::Stdout)
     .format(|stream, record| {
         let now = Local::now().naive_local();
         let level = record.level();
