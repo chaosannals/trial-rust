@@ -17,6 +17,6 @@ pub type JobsQueue = JobsQueueType<JobData>;
 
 impl JobDataTrait for JobData {
     async fn run(&self) {
-        log::info!("jobData run {} msg: {}", self.tag, self.message);
+        log::info!("jobData run {} msg: {} app: {:?}", self.tag, self.message, self.app);
     }
 }
