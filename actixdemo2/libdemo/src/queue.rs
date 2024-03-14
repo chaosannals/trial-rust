@@ -17,8 +17,10 @@ pub trait JobsQueueTrait<T :Default> {
     fn get_job(&self) -> Option<T>;
     fn into_queue(&self, job: T);
 }
+
 pub trait JobDataTrait {
     async fn run(&self);
+    // fn run(&self) -> impl std::future::Future<Output = ()> + Send;
 }
 impl <T: Default> JobsQueueTrait<T> for JobsQueueType<T>  {
     fn get_job(& self) -> Option<T> {
