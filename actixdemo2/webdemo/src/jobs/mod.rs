@@ -6,16 +6,19 @@ use serde::{Deserialize, Serialize,};
 use actix_web::{web::Data};
 use lib_demo::queue::{JobDataTrait, JobsQueueType, JobsQueueTrait};
 use crate::states::AppState;
+use async_trait::async_trait;
 
+#[async_trait]
 pub trait JobAction {
-    fn act(&self);
+    async fn act(&self);
 }
 
 #[derive(Default)]
 pub struct JobActionNothingToDo;
 
+#[async_trait]
 impl JobAction for JobActionNothingToDo {
-    fn act(&self) {
+    async fn act(&self) {
         log::info!("JobActionNothingToDo");
     }
 }
@@ -41,6 +44,6 @@ pub type JobsQueue = JobsQueueType<JobData>;
 
 impl JobDataTrait for JobData {
     async fn run(&self) {
-        self.action.0.act();
+        self.action.0.act().await
     }
 }

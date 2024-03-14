@@ -3,13 +3,15 @@ use crate::AppState;
 use crate::jobs::{JobsQueue, JobData, JobAction, JobActionArc, bar_jobs::{BarJobsQueue, BarJobData}};
 use actix_web::{web:: {Data, Json, ServiceConfig, route}, Responder};
 use lib_demo::queue::JobsQueueTrait;
+use async_trait::async_trait;
 
 struct JobActionOne {
     app: Data<AppState>,
 }
 
+#[async_trait]
 impl JobAction for JobActionOne {
-    fn act(&self) {
+    async fn act(&self) {
         log::info!("job into. {:?}", self.app);
     }
 }

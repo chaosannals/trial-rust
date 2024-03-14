@@ -1,19 +1,26 @@
+mod mylog;
+
+
 use std::{
     io,
     sync::Arc
 };
+use mylog::init_env_logger;
+use async_trait::async_trait;
 
+#[async_trait]
 trait MyTrait {
-    fn do_some(&self);
+    async fn do_some(&self);
 }
 
 struct MyStruct {
 
 }
 
+#[async_trait]
 impl MyTrait for MyStruct {
-    fn do_some(&self) {
-
+    async fn do_some(&self) {
+        log::info!("do_some 1");
     }
 }
 
@@ -21,9 +28,10 @@ struct MyStruct2 {
 
 }
 
+#[async_trait]
 impl MyTrait for MyStruct2 {
-    fn do_some(&self) {
-
+    async fn do_some(&self) {
+        log::info!("do_some 2");
     }
 }
 
@@ -40,15 +48,23 @@ impl Default for DataHolder {
     }
 }
 
+fn init() {
+    // init_env_logger();
+}
+
 #[tokio::main]
 async fn main()  -> io::Result<()> {
-    println!("dyn demo");
+    init_env_logger();
 
     let mut data = DataHolder::default();
 
-    tokio::spawn(async move {
+    let handle = tokio::spawn(async move {
+        data.my_t.do_some().await;
         data.my_t = Arc::new(MyStruct2 {});
+        data.my_t.do_some().await;
     });
+
+    let _ = handle.await.unwrap();
 
     Ok(())
 }

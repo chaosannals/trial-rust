@@ -7,3 +7,11 @@ edition = "2021"
 
 [dependencies]
 tokio = { version = "1.36.0", features = ["full"] }
+log = "0.4.21"
+env_logger = {version="0.11.2", features = ["color"]}
+chrono = "0.4.34"
+
+
+# rust 1.75 提供的 async trait fn 不支持 Box Arc 等传智能指针的操作，这个库弥补这个问题。
+# 1.75 是 2013-12 月发布的，这个库很新，内部使用 不安全代码，不知道可能会有 bug.
+async-trait = "0.1.77"
