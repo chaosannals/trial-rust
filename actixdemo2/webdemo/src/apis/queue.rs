@@ -2,8 +2,10 @@ use std::sync::Arc;
 use crate::AppState;
 use crate::jobs::{JobsQueue, JobData, JobAction, JobActionArc, bar_jobs::{BarJobsQueue, BarJobData}};
 use actix_web::{web:: {Data, Json, ServiceConfig, route}, Responder};
+use lib_demo::job::JobRedisData;
 use lib_demo::queue::JobsQueueTrait;
 use async_trait::async_trait;
+use apalis::{prelude::*, redis::{RedisStorage, connect}};
 
 struct JobActionOne {
     app: Data<AppState>,
@@ -33,8 +35,19 @@ async fn into_bar_queue(app: Data<AppState>, queue: Data<BarJobsQueue>, param: J
     "Ok"
 }
 
+async fn into_redis_jobs(
+    job: Json<JobRedisData>,
+    storage: Data<RedisStorage<JobRedisData>>,
+) -> impl Responder {
+    let storage = &*storage.into_inner();
+    let mut storage = storage.clone();
+    let res = storage.push(job.into_inner()).await;
+    "Ok"
+}
+
 pub fn apis_queue_config(cfg: &mut ServiceConfig) {
     cfg
         .route("/into_queue", route().to(into_queue))
-        .route("/into_bar_queue", route().to(into_bar_queue));
+        .route("/into_bar_queue", route().to(into_bar_queue))
+        .route("/into_redis_jobs", route().to(into_redis_jobs));
 }

@@ -1,4 +1,5 @@
 pub mod fs;
+pub mod job;
 pub mod queue;
 
 use std::io::Write;

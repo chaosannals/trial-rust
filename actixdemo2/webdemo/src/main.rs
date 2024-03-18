@@ -10,10 +10,12 @@ use std::{
     sync::atomic::{AtomicUsize, Ordering},
     sync::Arc,
 };
-use lib_demo::{init_env_logger, queue::start_queue};
+use lib_demo::{init_env_logger, queue::start_queue, job};
 use apis::apis_config;
 use jobs::{JobData, bar_jobs::BarJobData, foo_jobs::FooJobData};
 use states::AppState;
+use actix_web::rt::signal;
+use futures::future;
 
 
 #[actix_web::main]
@@ -30,9 +32,11 @@ async fn main() -> std::io::Result<()> {
     let (jobs, jobs_handle) = start_queue::<JobData>();
     let (bar_jobs, bar_jobs_handle) = start_queue::<BarJobData>();
     let (foo_jobs, foo_jobs_handle) = start_queue::<FooJobData>();
+    let (jobs_redis, jobs_monitor) = job::start_queue().await;
 
-    let _ = HttpServer::new(move || {
+    let server = HttpServer::new(move || {
         App::new()
+            .app_data(web::Data::new(jobs_redis.clone()))
             .app_data(web::Data::new(jobs.clone()))
             .app_data(web::Data::new(bar_jobs.clone()))
             .app_data(web::Data::new(foo_jobs.clone()))
@@ -41,8 +45,11 @@ async fn main() -> std::io::Result<()> {
     })
     .workers(4)
     .bind(("127.0.0.1", 44321))?
-    .run()
-    .await;
+    .run();
+
+    let worker = jobs_monitor.run_with_signal(signal::ctrl_c());
+
+    let _ = future::try_join(server, worker).await;
 
     bar_jobs_handle.abort();
     let _ = bar_jobs_handle.await;

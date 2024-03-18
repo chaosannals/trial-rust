@@ -21,6 +21,7 @@ futures = "0.3"
 futures-util = "0.3.30"
 chrono = "0.4.34"
 regex = "1.10.3"
+anyhow = "1.0.81"
 apalis = { version = "0.5.1", features = ["redis"] }
 
 # rust 1.75 提供的 async trait fn 不支持 Box Arc 等传智能指针的操作，这个库弥补这个问题。

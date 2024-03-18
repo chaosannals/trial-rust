@@ -11,7 +11,10 @@ chrono.workspace = true
 env_logger.workspace = true
 log.workspace = true
 serde.workspace = true
+futures.workspace = true
 async-trait.workspace = true
+anyhow.workspace = true
+apalis.workspace = true
 
 lib-demo.workspace = true
 
