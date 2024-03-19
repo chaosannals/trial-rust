@@ -32,7 +32,7 @@ async fn main() -> std::io::Result<()> {
     let (jobs, jobs_handle) = start_queue::<JobData>();
     let (bar_jobs, bar_jobs_handle) = start_queue::<BarJobData>();
     let (foo_jobs, foo_jobs_handle) = start_queue::<FooJobData>();
-    let (jobs_redis, jobs_monitor) = job::start_queue().await;
+    let (jobs_redis, jobs_redis_handle) = job::start_queue().await;
 
     let server = HttpServer::new(move || {
         App::new()
@@ -45,11 +45,13 @@ async fn main() -> std::io::Result<()> {
     })
     .workers(4)
     .bind(("127.0.0.1", 44321))?
-    .run();
+    .run()
+    .await;
 
-    let worker = jobs_monitor.run_with_signal(signal::ctrl_c());
+    // let _ = future::try_join(server, worker).await;
 
-    let _ = future::try_join(server, worker).await;
+    jobs_redis_handle.abort();
+    let _ = jobs_redis_handle.await;
 
     bar_jobs_handle.abort();
     let _ = bar_jobs_handle.await;
