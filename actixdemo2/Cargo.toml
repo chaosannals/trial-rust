@@ -5,6 +5,8 @@ members = ["libdemo", "webdemo"]
 [workspace.dependencies]
 actix-web = { version = "4", features = ["rustls", "macros"]}
 actix-session = { version = "0.9.0", features = ["cookie-session"] }
+actix-cors = "0.7.0"
+awc = { version = "3.4.0", features = ["rustls"] }
 log = "0.4.21"
 env_logger = {version="0.11.2", features = ["color"]}
 dotenvy = "0.15.7"
@@ -23,6 +25,9 @@ chrono = "0.4.34"
 regex = "1.10.3"
 anyhow = "1.0.81"
 apalis = { version = "0.5.1", features = ["redis"] }
+
+reqwest = { version = "0.11", features = ["json"] }
+tokio = { version = "1", features = ["full"] }
 
 # rust 1.75 提供的 async trait fn 不支持 Box Arc 等传智能指针的操作，这个库弥补这个问题。
 # 1.75 是 2013-12 月发布的，这个库很新，内部使用 不安全代码，不知道可能会有 bug.
