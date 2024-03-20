@@ -1,6 +1,7 @@
 pub mod fs;
 pub mod job;
 pub mod queue;
+pub mod task;
 
 use std::io::Write;
 use log::Level;

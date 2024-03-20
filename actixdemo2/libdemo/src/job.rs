@@ -70,7 +70,7 @@ async fn queue_process(
 
 pub async fn start_queue() -> (RedisStorage<JobRedisData>, JoinHandle<()>) {
     let redis_url = "redis://127.0.0.1:6379/1";
-    let redis = connect(redis_url).await.expect("Redis 连接失败");
+    let redis = connect(redis_url).await.expect("[ERROR] Redis 连接失败");
     let storage = RedisStorage::new(redis);
 
     let monitor = Monitor::<TokioExecutor>::new().register_with_count(2, {
@@ -82,7 +82,25 @@ pub async fn start_queue() -> (RedisStorage<JobRedisData>, JoinHandle<()>) {
     
     let handle = spawn(async move {
         log::info!("start redis queue.");
-        monitor.run_with_signal(signal::ctrl_c()).await;
+        // 进程信号关闭
+        match monitor.run_with_signal(signal::ctrl_c()).await {
+            Ok(r) => {
+                log::info!("redis run {:?}",r);
+            }
+            Err(e) => {
+                log::info!("redis run err: {:?}",e);
+            }
+        }
+
+        // 默认行为
+        // match monitor.run().await {
+        //     Ok(r) => {
+        //         log::info!("redis run {:?}",r);
+        //     }
+        //     Err(e) => {
+        //         log::info!("redis run err: {:?}",e);
+        //     }
+        // }
     });
 
     (storage, handle)
