@@ -1,0 +1,15 @@
+[package]
+name = "webdemo"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+actix-web = { workspace = true }
+awc = { workspace = true }
+log = { workspace = true }
+env_logger = { workspace = true }
+dotenvy = { workspace = true }
+anyhow = { workspace = true }
+lib-demo={ workspace = true }
