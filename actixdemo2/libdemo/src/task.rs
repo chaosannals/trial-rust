@@ -15,7 +15,7 @@ use serde::{Deserialize, Serialize};
 
 // 如果要使用，应该把数据结构分离下，以下把几个结构合并了。但是功能其实有点不相同。
 // JobTaskEvent 加了 JSON 解析是为了给接口参数复用，实际使用最好拆开。
-
+// send 在拆开后封装成一个函数，不要让使用者去生成 结果 通道。
 
 #[derive(Debug)]
 pub struct JobTaskResult {
