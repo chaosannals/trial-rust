@@ -1,4 +1,5 @@
 mod apis;
+mod wsapis;
 mod states;
 
 use actix_web::{get, web, App, HttpServer, Responder};
@@ -11,6 +12,7 @@ use std::{
 use lib_demo::init_env_logger;
 
 use crate::apis::apis_config;
+use crate::wsapis::wsapis_config;
 use crate::states::AppState;
 
 #[actix_web::main]
@@ -26,6 +28,7 @@ async fn main() -> anyhow::Result<()> {
         App::new()
             .app_data(web::Data::new(state.clone()))
             .configure(apis_config)
+            .configure(wsapis_config)
     })
     .workers(4)
     .bind(("127.0.0.1", 44322))?

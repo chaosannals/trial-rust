@@ -3,9 +3,11 @@ resolver = "2"
 members = [ "libdemo","webdemo"]
 
 [workspace.dependencies]
+actix = "0.13.3"
 actix-web = { version = "4", features = ["rustls", "macros"]}
 actix-session = { version = "0.9.0", features = ["cookie-session"] }
 actix-cors = "0.7.0"
+actix-web-actors = "4.3.0"
 awc = { version = "3.4.0", features = ["rustls"] }
 log = "0.4.21"
 env_logger = {version="0.11.2", features = ["color"]}
