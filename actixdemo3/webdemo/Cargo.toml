@@ -9,6 +9,7 @@ edition = "2021"
 actix = { workspace = true }
 actix-web = { workspace = true }
 actix-web-actors =  { workspace = true }
+actix-protobuf =  { workspace = true }
 awc = { workspace = true }
 log = { workspace = true }
 env_logger = { workspace = true }
@@ -16,4 +17,10 @@ dotenvy = { workspace = true }
 anyhow = { workspace = true }
 serde = { workspace = true }
 
+tonic.workspace = true
+prost.workspace = true
+
 lib-demo={ workspace = true }
+
+[build-dependencies]
+tonic-build.workspace = true

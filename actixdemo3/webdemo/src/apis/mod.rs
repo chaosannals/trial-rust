@@ -1,3 +1,5 @@
+mod pb;
+
 use std::{
     cell::Cell,
     sync::atomic::{AtomicUsize, Ordering},
@@ -44,7 +46,11 @@ async fn add_one(data: web::Data<AppState>) -> impl Responder {
 pub fn apis_config(cfg: &mut web::ServiceConfig) {
     cfg
         .service(show_count)
-        .service(add_one);
+        .service(add_one)
+        .service(
+            web::scope("/pb")
+            .configure(pb::apis_pb_config)
+        );
 }
 
 #[cfg(test)]
