@@ -13,9 +13,9 @@ async fn main() -> Result<()> {
     let req = echopb::EchoRequest {
         message: "bbbb".to_string()
     };
-    // TODO 
     let req_len = req.encoded_len();
-    let mut bytes = vec![0; req_len];
+    println!("req_len: {}", req_len);
+    let mut bytes = vec![0; 0];
     req.encode(&mut bytes)?;
     let resp = client.post("http://127.0.0.1:44322/pb/echo")
         .header("Content-Type", "application/protobuf")
@@ -23,5 +23,8 @@ async fn main() -> Result<()> {
         .send()
         .await?;
     println!("{resp:#?}");
+    let r_bytes = resp.bytes().await?;
+    let r_res = echopb::EchoResponse::decode(r_bytes)?;
+    println!("r_res: {:?}", r_res.message);
     Ok(())
 }
