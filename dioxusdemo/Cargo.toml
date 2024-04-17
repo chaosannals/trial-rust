@@ -1,0 +1,8 @@
+[workspace]
+resolver = "2"
+members = [
+    "simpledemo"
+]
+
+[workspace.dependencies]
+dioxus = {version = "0.5.1"}
