@@ -1,0 +1,13 @@
+[workspace]
+members=[
+    "prostdemo",
+    "rspbdemo"
+]
+
+[workspace.dependencies]
+protobuf = "3.4.0"
+protobuf-codegen = "3.4.0"
+protobuf-json-mapping = "3.4.0"
+
+prost = "0.12.6"
+prost-build = "0.12.6"
