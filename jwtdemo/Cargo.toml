@@ -1,0 +1,11 @@
+[workspace]
+resolver = "2"
+members = [
+    "jsonwebtokendemo"
+]
+
+[workspace.dependencies]
+jsonwebtoken = "9.3.0"
+serde = {version="1.0.202",  features = ["derive"]}
+anyhow = "1.0.86"
+time = "0.3.36"
