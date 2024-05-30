@@ -1,0 +1,12 @@
+[workspace]
+resolver = "2"
+members = [
+    "lopdfdemo",
+    "pdfdemo"
+]
+
+[workspace.dependencies]
+lopdf = "0.32.0"
+
+pdf = "0.9.0"
+pdf_derive = "0.2.0"
