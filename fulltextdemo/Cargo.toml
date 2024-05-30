@@ -1,9 +1,11 @@
 [workspace]
 resolver = "2"
 members = [
+    "leveladbdemo",
     "leveldbdemo"
 ]
 
 [workspace.dependencies]
 rusty-leveldb = "3.0.0"
 anyhow = "1.0.86"
+tokio = "1.37.0"
