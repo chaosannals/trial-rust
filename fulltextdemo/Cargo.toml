@@ -1,0 +1,9 @@
+[workspace]
+resolver = "2"
+members = [
+    "leveldbdemo"
+]
+
+[workspace.dependencies]
+rusty-leveldb = "3.0.0"
+anyhow = "1.0.86"
