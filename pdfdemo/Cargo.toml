@@ -1,15 +1,16 @@
 [workspace]
 resolver = "2"
 members = [ "imagedemo",
-    "lopdfdemo", "lopdfdemo2", "lopdfdemo3",
+    "lopdfdemo", "lopdfdemo2", "lopdfdemo3", "lopdfdemo4",
     "pdfdemo"
 ]
 
 [workspace.dependencies]
-lopdf = "0.32.0"
+lopdf = {version = "0.32.0"}
 
 pdf = "0.9.0"
 pdf_derive = "0.2.0"
 
 image = "0.25.1"
 anyhow = "1.0.86"
+tokio = "1.38.0"
