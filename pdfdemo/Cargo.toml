@@ -1,7 +1,7 @@
 [workspace]
 resolver = "2"
 members = [ "imagedemo",
-    "lopdfdemo", "lopdfdemo2",
+    "lopdfdemo", "lopdfdemo2", "lopdfdemo3",
     "pdfdemo"
 ]
 
