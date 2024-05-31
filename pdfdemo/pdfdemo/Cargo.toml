@@ -8,3 +8,6 @@ edition = "2021"
 [dependencies]
 pdf.workspace=true
 pdf_derive.workspace=true
+
+image.workspace=true
+anyhow.workspace=true
