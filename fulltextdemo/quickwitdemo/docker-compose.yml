@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  quickwit-server:
+    image: quickwit/quickwit
+    ports:
+      - 7280:7280
+    volumes:
+      - ./qwdata:/quickwit/qwdata
+    networks:
+      - quickwit-net
+    command: run
+
+networks:
+  quickwit-net:
+    name: quickwit-net
+    driver: bridge

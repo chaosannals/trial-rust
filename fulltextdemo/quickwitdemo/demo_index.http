@@ -1,0 +1,32 @@
+@host=http://127.0.0.1:7280
+
+###
+# @name createIndex
+POST {{host}}/api/v1/indexes HTTP/1.1
+Content-Type: application/yaml
+
+version: 0.8
+index_id: stackoverflow2
+doc_mapping:
+  field_mappings:
+    - name: title
+      type: text
+      tokenizer: default
+      record: position
+      stored: true
+    - name: body
+      type: text
+      tokenizer: default
+      record: position
+      stored: true
+    - name: creationDate
+      type: datetime
+      fast: true
+      input_formats:
+        - rfc3339
+      fast_precision: seconds
+  timestamp_field: creationDate
+search_settings:
+  default_search_fields: [title, body]
+indexing_settings:
+  commit_timeout_secs: 10
