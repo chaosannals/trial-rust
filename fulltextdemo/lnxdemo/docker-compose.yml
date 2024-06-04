@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  inx-server:
+    image: chillfish8/lnx:0.10.0
+    ports:
+      - 8000:8000
+    environment:
+      - AUTHORIZATION_KEY=hello
+      - LOG_LEVEL=info
+    volumes:
+      - ./index:/etc/lnx/index
+    networks:
+      - inx-net
+
+networks:
+  inx-net:
+    name: inx-net
+    driver: bridge

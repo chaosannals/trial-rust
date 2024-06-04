@@ -1,0 +1,6 @@
+@host=http://127.0.0.1:8000
+
+###
+# @name commitIndex
+POST {{host}}/indexes/your_index/commit
+Content-Type: application/json

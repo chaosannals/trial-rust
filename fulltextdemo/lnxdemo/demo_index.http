@@ -1,0 +1,43 @@
+@host=http://127.0.0.1:8000
+
+###
+# @name createIndex
+# 官方示例请求参数的示例有问题，TODO 找其他示例，提示的 writer_buffer 小于1，但是实际示例是 300000
+POST {{host}}/indexes
+Content-Type: application/json
+
+{
+  "override_if_exists": true,
+  "index": {
+    "name": "youer_index",
+    "storage_type": "tempdir",
+    "fields": {
+      "property1": {
+        "type": "f64",
+        "stored": true,
+        "indexed": true,
+        "multi": false,
+        "fast": false
+      },
+      "property2": {
+        "type": "f64",
+        "stored": true,
+        "indexed": true,
+        "multi": false,
+        "fast": false
+      }
+    },
+    "search_fields": [
+      "string"
+    ],
+    "boost_fields": {},
+    "reader_threads": 1,
+    "max_concurrency": 2,
+    "writer_buffer": 30000,
+    "writer_threads": 0,
+    "set_conjunction_by_default": false,
+    "use_fast_fuzzy": false,
+    "strip_stop_words": false,
+    "auto_commit": 0
+  }
+}
