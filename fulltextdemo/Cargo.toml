@@ -1,12 +1,11 @@
 [workspace]
 resolver = "2"
-members = [ "jiebademo",
-    "leveladbdemo",
-    "leveldbdemo"
-]
+members = ["jiebademo", "leveladbdemo", "leveldbdemo", "tantivydemo"]
 
 [workspace.dependencies]
 rusty-leveldb = "3.0.0"
 anyhow = "1.0.86"
 tokio = "1.37.0"
 jieba-rs = "0.7.0"
+tantivy = "0.22.0"
+tempfile = "3.10.1"
