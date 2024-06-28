@@ -1,0 +1,12 @@
+[workspace]
+resolver = "2"
+members = ["helpers", "req_client", "resp_server"]
+
+[workspace.dependencies]
+zeromq = { version = "0.4.0", default-features = false, features = [
+    "async-std-runtime",
+    "all-transport",
+] }
+async-std ={ version = "1.12.0" }
+anyhow = "1.0.86"
+helpers = { path = "helpers", features = ["async-std-runtime"]}
