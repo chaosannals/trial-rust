@@ -12,3 +12,5 @@ pub async fn sleep(duration: std::time::Duration) {
 }
 
 pub const REQ_PORT: u32  = 4444;
+pub const PUB_PORT: u32  = 44444;
+pub const SUB_NAME: &str = "SUB_NAME1";

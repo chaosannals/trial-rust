@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["helpers", "req_client", "resp_server"]
+members = ["helpers", "pub_server", "req_client", "resp_server", "sub_client"]
 
 [workspace.dependencies]
 zeromq = { version = "0.4.0", default-features = false, features = [

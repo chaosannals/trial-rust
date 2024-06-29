@@ -671,6 +671,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "pub_server"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-std",
+ "helpers",
+ "zeromq",
+]
+
+[[package]]
 name = "quote"
 version = "1.0.36"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -823,6 +833,16 @@ checksum = "9f7916fc008ca5542385b89a3d3ce689953c143e9304a9bf8beec1de48994c0d"
 dependencies = [
  "libc",
  "winapi",
+]
+
+[[package]]
+name = "sub_client"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-std",
+ "helpers",
+ "zeromq",
 ]
 
 [[package]]
